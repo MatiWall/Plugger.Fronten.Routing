@@ -2,18 +2,27 @@ import {Route} from './types'
 
 
 class RouteRef implements Route{
-    id: string;
+    readonly id: string;
+    readonly params: string[]
 
-    constructor(id: string) {
+    constructor(
+        id: string,
+        params: string[]
+    ) {
         this.id = id
+        this.params = params
     }
 
 }
 
 
-function createRouteRef(id: string) {
+function createRouteRef(
+    id: string,
+    params: string[] = []
+) {
 
-    return new RouteRef(id)
+    
+    return new RouteRef(id, params);
 }
 
 export {

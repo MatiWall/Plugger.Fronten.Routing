@@ -1,9 +1,9 @@
 
 interface Route {
-    path: string;          // The route path
-    params: string[];     // The route parameters
+    readonly id: string,
+    params: string[]
 }
 
-export {
+export type {
     Route
 };
