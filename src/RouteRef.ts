@@ -22,11 +22,11 @@ class RouteRef implements Route{
 
     validate(path: string): boolean{
         const pathParameters = getPathParameters(path);
-        console.log(arrayAreEqual(pathParameters, this.params));
+
         if (!arrayAreEqual(pathParameters, this.params)){
             throw new InvalidPathError('Specified path specified parameters ' + pathParameters + 'does not match RouteRef specification '+ this.params)
         }
-        
+
         return true
 
     }

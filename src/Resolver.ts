@@ -1,4 +1,4 @@
-import { InvalidRouteRefError } from "./errors";
+import { InvalidRouteRefError, InvalidPathError } from "./errors";
 import { RouteRef } from "./RouteRef"
 
 
@@ -13,10 +13,19 @@ class RouteResolver {
 
     }
 
-    addRoute(path: string, routeRef: RouteRef): void {
+    addRoute(path: string, routeRef: RouteRef): boolean {
         
+        if (this.routeMapping.has(path)) {
+            throw new InvalidPathError(`Route with path "${path}" already exists.`);
+        }
+
+        if (!(routeRef instanceof RouteRef)){
+            throw new InvalidRouteRefError('routeRef has to be an instance of RouteRef')
+        }
+
         routeRef.validate(path);
         this.routeMapping.set(path, routeRef);
+        return true
     }
 
     resolveRoute(path: string): RouteRef | undefined {
