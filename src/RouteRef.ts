@@ -1,5 +1,10 @@
 import {Route} from './types'
+import { v4 as uuidv4 } from 'uuid';
 
+type RouteRefOptions = {
+    id?: string,
+    params?: string[]
+}
 
 class RouteRef implements Route{
     readonly id: string;
@@ -16,12 +21,12 @@ class RouteRef implements Route{
 }
 
 
-function createRouteRef(
-    id: string,
-    params: string[] = []
-) {
+function createRouteRef({
+    id = uuidv4(),
+    params = []
+}: RouteRefOptions = { id: uuidv4(), params: [] }) {
 
-    
+
     return new RouteRef(id, params);
 }
 

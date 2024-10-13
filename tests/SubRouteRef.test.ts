@@ -5,7 +5,7 @@ describe('SubRouteRef', () => {
     let testRouteRef: RouteRef;
 
     beforeEach(() => {
-        testRouteRef = createRouteRef('test.routeref');
+        testRouteRef = createRouteRef();
     });
 
     test('Test subRouteRef', () => {
@@ -47,7 +47,7 @@ describe('SubRouteRef', () => {
 
     test('Sub route with non unique parameters', () => {
         
-        testRouteRef = createRouteRef('test.routeref', ['param1', 'param2']);
+        testRouteRef = createRouteRef({id: 'test.routeref', params:['param1', 'param2']});
 
         const id: string = 'test.testsubroute';
         const path: string = 'test/:kind/:name/:kind'
@@ -67,7 +67,7 @@ describe('SubRouteRef', () => {
 
     test('Sub route overlapping parameters between parent and sub route', () => {
         
-        testRouteRef = createRouteRef('test.routeref', ['param1', 'param2']);
+        testRouteRef = createRouteRef({id: 'test.routeref', params: ['param1', 'param2']});
 
         const id: string = 'test.testsubroute';
         const path: string = 'test/:param1/:name'

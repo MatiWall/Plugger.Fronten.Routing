@@ -13,4 +13,15 @@ class DuplicateParameterError extends Error {
     }
 }
 
-export { OverLappingParametersError, DuplicateParameterError };
+class InvalidRouteRefError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = "RouteError";
+    }
+}
+
+export { 
+    OverLappingParametersError, 
+    DuplicateParameterError,
+    InvalidRouteRefError
+};
