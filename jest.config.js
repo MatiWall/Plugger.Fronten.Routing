@@ -1,7 +1,7 @@
 // jest.config.js
 module.exports = {
     preset: 'ts-jest', // Use ts-jest to transform TypeScript files
-    testEnvironment: 'node',
+    testEnvironment: 'jsdom',
     transform: {
       '^.+\\.ts$': 'ts-jest', // Transform TypeScript files using ts-jest
     },
@@ -11,4 +11,3 @@ module.exports = {
     },
     extensionsToTreatAsEsm: ['.ts'], // Treat .ts files as ESModules
   };
-  

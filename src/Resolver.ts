@@ -14,6 +14,8 @@ class RouteResolver {
     }
 
     addRoute(path: string, routeRef: RouteRef): void {
+        
+        routeRef.validate(path);
         this.routeMapping.set(path, routeRef);
     }
 

@@ -13,10 +13,24 @@ export {
     useRouteResolver
 }
 
+import { getPathParameters } from "./utils";
 
-import { OverLappingParametersError, DuplicateParameterError } from "./errors";
+export {
+    getPathParameters
+}; 
+
+import { 
+    OverLappingParametersError, 
+    DuplicateParameterError,
+    InvalidRouteRefError,
+    InvalidPathError 
+
+} from "./errors";
 
 export {
     OverLappingParametersError,
-    DuplicateParameterError
+    DuplicateParameterError,
+    InvalidRouteRefError,
+    InvalidPathError
 };
+

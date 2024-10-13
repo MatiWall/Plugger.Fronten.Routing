@@ -20,8 +20,16 @@ class InvalidRouteRefError extends Error {
     }
 }
 
+class InvalidPathError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = "RouteError";
+    }
+}
+
 export { 
     OverLappingParametersError, 
     DuplicateParameterError,
-    InvalidRouteRefError
+    InvalidRouteRefError,
+    InvalidPathError
 };

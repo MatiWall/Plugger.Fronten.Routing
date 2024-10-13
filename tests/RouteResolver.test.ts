@@ -1,4 +1,4 @@
-import { RouteResolver, createRouteRef } from "../src";
+import { InvalidPathError, RouteResolver, createRouteRef } from "../src";
 
 
 test('Route to route ref', () => {
@@ -31,5 +31,24 @@ test('RouteRef to route', () => {
 
 
     expect(routeResolver.resolveRouteRef(testRouteRef1)).toBe('/path1');
+
+})
+
+
+test('RouteRef to route with params', () => {
+
+    const testRouteRef1 = createRouteRef({params: ['kind']});
+    const testRouteRef2 = createRouteRef({params: ['kind', 'namespace', 'name']});
+    const testRouteRef3 = createRouteRef();
+
+    const routeResolver = new RouteResolver();
+    
+    //routeResolver.addRoute('/path2/:kind/:namespace/:name', testRouteRef2);
+    //routeResolver.addRoute('/path3/:param1/:param2/:params3/:param4', testRouteRef3);
+
+
+    expect(() => {
+        routeResolver.addRoute('/path1', testRouteRef1);
+    }).toThrow(InvalidPathError); 
 
 })

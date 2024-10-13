@@ -1,6 +1,7 @@
 import { DuplicateParameterError, OverLappingParametersError } from './errors'
 import {RouteRef} from './RouteRef'
 import {Route} from './types'
+import { getPathParameters } from './utils'
 
 class SubRouteRef implements Route {
     parent: RouteRef | SubRouteRef
@@ -27,7 +28,7 @@ function createSubRouteRef(
     path: string,
 ){
 
-    const params: string[] = path.split('/').filter(p => p.startsWith(':')).map(p => p.substring(1));
+    const params: string[] = getPathParameters(path);
 
     const overLappingParams: string[] = params.filter(p => parent.params.includes(p))
     if (overLappingParams.length > 0) {

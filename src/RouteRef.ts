@@ -1,5 +1,7 @@
 import {Route} from './types'
 import { v4 as uuidv4 } from 'uuid';
+import { arrayAreEqual, getPathParameters } from './utils';
+import { InvalidPathError } from './errors';
 
 type RouteRefOptions = {
     id?: string,
@@ -16,6 +18,17 @@ class RouteRef implements Route{
     ) {
         this.id = id
         this.params = params
+    }
+
+    validate(path: string): boolean{
+        const pathParameters = getPathParameters(path);
+        console.log(arrayAreEqual(pathParameters, this.params));
+        if (!arrayAreEqual(pathParameters, this.params)){
+            throw new InvalidPathError('Specified path specified parameters ' + pathParameters + 'does not match RouteRef specification '+ this.params)
+        }
+        
+        return true
+
     }
 
 }
