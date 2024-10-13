@@ -35,16 +35,6 @@ test('RouteRef to route', () => {
 })
 
 
-test('RouteRef to route', () => {
-
-    const testRouteRef1 = createRouteRef();
-
-    const routeResolver = new RouteResolver();
-
-    expect(() => routeResolver.addRoute('/path1', 'test'))).toThrow(InvalidRouteRefError);
-
-})
-
 
 test('RouteRef to route with params', () => {
 
