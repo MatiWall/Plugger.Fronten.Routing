@@ -1,8 +1,11 @@
-import { createRouteRef, RouteRef } from "./RouteRef";
-import { createSubRouteRef, SubRouteRef } from "./SubRouteRef"; 
+import { createRouteRef, RouteRef } from "./RouteRef/RouteRef";
+import { createSubRouteRef, SubRouteRef } from "./RouteRef/SubRouteRef"; 
 import { RouteResolver } from "./Resolver";
 import {RouteResolverProvider, useRouteResolver} from "./RouterProvider";
-import {useRouteRefParams} from "./UseRouteRefParams" 
+import {useRouteRefParams} from "./RouteRef/UseRouteRefParams" 
+import {AppRouter} from "./Router"
+import {Routes, Route} from "./Routes"
+
 
 export {
     createRouteRef,
@@ -12,7 +15,11 @@ export {
     RouteResolver,
     RouteResolverProvider,
     useRouteResolver,
-    useRouteRefParams
+    useRouteRefParams,
+    
+    AppRouter, 
+    Routes, 
+    Route
 }
 
 import { getPathParameters } from "./utils";

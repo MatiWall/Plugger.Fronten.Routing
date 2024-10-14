@@ -1,7 +1,7 @@
-import { DuplicateParameterError, OverLappingParametersError } from './errors'
+import { DuplicateParameterError, OverLappingParametersError } from '../errors'
 import {RouteRef} from './RouteRef'
-import {Route} from './types'
-import { getPathParameters } from './utils'
+import {Route} from '../types'
+import { getPathParameters } from '../utils'
 
 class SubRouteRef implements Route {
     parent: RouteRef

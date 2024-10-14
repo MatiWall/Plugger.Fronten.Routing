@@ -1,6 +1,6 @@
 import {validate as isUUID} from 'uuid';
 import { createRouteRef } from "../src";
-import { RouteRef } from "../src/RouteRef";
+import { RouteRef } from "../src/RouteRef/RouteRef";
 
 test('Initialise RouteRef', () => {
     const testRouteRef = createRouteRef(); 

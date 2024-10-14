@@ -1,7 +1,7 @@
 import { RouteRef } from "./RouteRef";
 import { SubRouteRef } from "./SubRouteRef";
-import { useRouteResolver } from "./RouterProvider";
-import { InvalidRouteRefError } from "./errors";
+import { useRouteResolver } from "../RouterProvider";
+import { InvalidRouteRefError } from "../errors";
 
 
 function useRouteRef(

@@ -1,5 +1,5 @@
 import { InvalidRouteRefError, InvalidPathError } from "./errors";
-import { RouteRef } from "./RouteRef"
+import { RouteRef } from "./RouteRef/RouteRef"
 
 
 

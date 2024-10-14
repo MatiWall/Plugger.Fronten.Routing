@@ -1,7 +1,7 @@
-import {Route} from './types'
+import {Route} from '../types'
 import { v4 as uuidv4 } from 'uuid';
-import { arrayAreEqual, getPathParameters } from './utils';
-import { InvalidPathError } from './errors';
+import { arrayAreEqual, getPathParameters } from '../utils';
+import { InvalidPathError } from '../errors';
 
 type RouteRefOptions = {
     id?: string,

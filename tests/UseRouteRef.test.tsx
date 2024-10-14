@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { createRouteRef, RouteResolver, RouteResolverProvider, useRouteResolver } from '../src';
-import { useRouteRef } from '../src/UseRouteRef';
+import { useRouteRef } from '../src/RouteRef/UseRouteRef';
 
 
 test('Use Route Ref', () => {
