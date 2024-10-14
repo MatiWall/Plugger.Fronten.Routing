@@ -30,3 +30,28 @@ test('Use Route Ref', () => {
 
 
 })
+
+test('Route Ref missing params', () => {
+    const routeResolver: RouteResolver = new RouteResolver();
+    
+    const routeRef = createRouteRef({params: ['kind', 'namespace', 'name']});
+
+    routeResolver.addRoute('/path1/:kind/:namespace/:name', routeRef);
+
+    const TestComponent = () => {
+        const routeBuilder = useRouteRef(routeRef);
+
+        // Missing 'name' param
+        expect(() => {
+            routeBuilder({kind: 'system', namespace: 'default'});
+        }).toThrow();
+        
+        return (<div> Test Component </div>)
+    }
+
+    render(
+        <RouteResolverProvider resolver={routeResolver}>
+            <TestComponent/>
+        </RouteResolverProvider>
+    );
+});
