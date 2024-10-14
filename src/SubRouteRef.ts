@@ -4,14 +4,14 @@ import {Route} from './types'
 import { getPathParameters } from './utils'
 
 class SubRouteRef implements Route {
-    parent: RouteRef | SubRouteRef
+    parent: RouteRef
     id: string
     path: string
     params: string[]
 
     constructor(
         id: string,
-        parent: RouteRef | SubRouteRef,
+        parent: RouteRef,
         path: string,
         params: string[]
     ) {
@@ -24,11 +24,11 @@ class SubRouteRef implements Route {
 
 function createSubRouteRef(
     id: string,
-    parent: RouteRef | SubRouteRef,
+    parent: RouteRef,
     path: string,
 ){
 
-    const params: string[] = getPathParameters(path);
+    const params: string[] = getPathParameters(path );
 
     const overLappingParams: string[] = params.filter(p => parent.params.includes(p))
     if (overLappingParams.length > 0) {
