@@ -1,4 +1,8 @@
-import { createRouteRef, createSubRouteRef, DuplicateParameterError, OverLappingParametersError, SubRouteRef } from "../src";
+import {
+    createRouteRef, 
+    DuplicateParameterError, 
+    OverLappingParametersError
+    } from "../src";
 import { RouteRef, } from "../src";
 
 describe('SubRouteRef', () => {
@@ -10,36 +14,28 @@ describe('SubRouteRef', () => {
 
     test('Test subRouteRef', () => {
         
-        const id: string = 'test.testsubroute';
         const path: string = 'test/'
 
-        const testSubRouteRef: SubRouteRef = createSubRouteRef(
-            id,
-            testRouteRef,
+        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
             path
         );
 
-        expect(testSubRouteRef).toBeInstanceOf(SubRouteRef);
-        expect(testSubRouteRef.id).toBe(id);
-        expect(testSubRouteRef.parent).toBe(testRouteRef);
+        expect(testSubRouteRef).toBeInstanceOf(RouteRef);
+        expect(testSubRouteRef.parentID).toBe(testRouteRef.id);
         expect(testSubRouteRef.path).toBe(path);
         expect(testSubRouteRef.params).toEqual([]);
     })
 
     test('Subroute with url params', () => {
 
-        const id: string = 'test.testsubroute';
         const path: string = 'test/:kind/:name'
 
-        const testSubRouteRef: SubRouteRef = createSubRouteRef(
-            id,
-            testRouteRef,
+        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
             path
         );
 
-        expect(testSubRouteRef).toBeInstanceOf(SubRouteRef);
-        expect(testSubRouteRef.id).toBe(id);
-        expect(testSubRouteRef.parent).toBe(testRouteRef);
+        expect(testSubRouteRef).toBeInstanceOf(RouteRef);
+        expect(testSubRouteRef.parentID).toBe(testRouteRef.id);
         expect(testSubRouteRef.path).toBe(path);
         expect(testSubRouteRef.params).toEqual(['kind', 'name']);
 
@@ -55,9 +51,7 @@ describe('SubRouteRef', () => {
 
         expect(() => {
 
-            const testSubRouteRef: SubRouteRef = createSubRouteRef(
-                id,
-                testRouteRef,
+            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
                 path
             ); 
 
@@ -75,9 +69,7 @@ describe('SubRouteRef', () => {
 
         expect(() => {
 
-            const testSubRouteRef: SubRouteRef = createSubRouteRef(
-                id,
-                testRouteRef,
+            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
                 path
             ); 
 

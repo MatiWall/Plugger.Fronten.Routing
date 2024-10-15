@@ -1,5 +1,5 @@
 import {validate as isUUID} from 'uuid';
-import { createRouteRef } from "../src";
+import { createRouteRef, InvalidPathError } from "../src";
 import { RouteRef } from "../src/RouteRef/RouteRef";
 
 test('Initialise RouteRef', () => {
@@ -39,4 +39,30 @@ test('Initialise RouteRef with default. Make sure id is different', () => {
     const testRouteRef2 = createRouteRef(); 
 
     expect(testRouteRef.id).not.toBe(testRouteRef2.id)
+})
+
+
+test('subRouteRef', () => {
+
+    const testRouteRef = createRouteRef(); 
+    const subRouteRef = testRouteRef.createSubRouteRef('test/')
+    
+    expect(testRouteRef.subRouteRefs[0]).toBe(subRouteRef);
+    expect(testRouteRef.id).toBe(subRouteRef.parentID);
+
+    const subSubRouteRef = subRouteRef.createSubRouteRef('sub');
+    const subSub2RouteRef = subRouteRef.createSubRouteRef('sub2');
+    const subSubSubRouteRef = subSub2RouteRef.createSubRouteRef('sub3');
+    
+    expect(testRouteRef.subRouteRefs[0].subRouteRefs[0]).toBe(subSubRouteRef);
+    expect(testRouteRef.subRouteRefs[0].subRouteRefs[1]).toBe(subSub2RouteRef);
+    expect(testRouteRef.subRouteRefs[0].subRouteRefs[1].subRouteRefs[0]).toBe(subSubSubRouteRef);
+})
+
+test('Test subRouteRef without path -> Throw error', () => {
+
+    const testRouteRef = createRouteRef(); 
+    
+    
+    expect(() => testRouteRef.createSubRouteRef('')).toThrow(InvalidPathError);
 })

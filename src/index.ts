@@ -1,5 +1,4 @@
 import { createRouteRef, RouteRef } from "./RouteRef/RouteRef";
-import { createSubRouteRef, SubRouteRef } from "./RouteRef/SubRouteRef"; 
 import { RouteResolver } from "./Resolver";
 import {RouteResolverProvider, useRouteResolver} from "./RouterProvider";
 import {useRouteRefParams} from "./RouteRef/UseRouteRefParams" 
@@ -10,8 +9,6 @@ import {Routes, Route} from "./Routes"
 export {
     createRouteRef,
     RouteRef,
-    createSubRouteRef,
-    SubRouteRef,
     RouteResolver,
     RouteResolverProvider,
     useRouteResolver,

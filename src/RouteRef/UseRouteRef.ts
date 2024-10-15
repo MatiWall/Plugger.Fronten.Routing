@@ -1,5 +1,5 @@
 import { RouteRef } from "./RouteRef";
-import { SubRouteRef } from "./SubRouteRef";
+import { SubRouteRef } from "./deletedSubRouteRef";
 import { useRouteResolver } from "../RouterProvider";
 import { InvalidRouteRefError } from "../errors";
 
