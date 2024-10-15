@@ -28,11 +28,10 @@ describe('SubRouteRef', () => {
 
     test('Subroute with url params', () => {
 
-        const path: string = 'test/:kind/:name'
+        const path: string = 'test'
+        const params: string[] = ['kind', 'name']
 
-        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
-            path
-        );
+        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef('', params);
 
         expect(testSubRouteRef).toBeInstanceOf(RouteRef);
         expect(testSubRouteRef.parentID).toBe(testRouteRef.id);

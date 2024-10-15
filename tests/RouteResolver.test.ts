@@ -40,31 +40,20 @@ test('RouteRef to route with params', () => {
 
     const testRouteRef1 = createRouteRef({params: ['kind']});
     const testRouteRef2 = createRouteRef({params: ['kind', 'namespace', 'name']});
-    const testRouteRef3 = createRouteRef({params: ['param1', 'param2', 'param3', 'param4']});
+
 
     const routeResolver = new RouteResolver();
-    
+    routeResolver.addRoute('/path1/:kind/:namespace/:name', testRouteRef1);
 
 
-    expect(() => {
-        routeResolver.addRoute('/path1', testRouteRef1);
-    }).toThrow(InvalidPathError); 
 
     expect(() => {
-        routeResolver.addRoute('/path1/:kind/:namespace/:name', testRouteRef2);
-    }).not.toThrow(); 
-
-    expect(() => {
-        routeResolver.addRoute('/path3/:param1/:param2/:param3/:param4', testRouteRef3);
-    }).not.toThrow(); 
-
-    expect(() => { // Spell mistake
-        routeResolver.addRoute('/path3/:param1/:params2/:param3/:param4', testRouteRef3);
-    }).toThrow(InvalidPathError);
+        const testRouteRef3 = createRouteRef({params: ['param1', 'param2', 'param3', 'param4']});
+    }).toThrow(); 
     
 
     expect(() => { // Already exists
-        routeResolver.addRoute('/path1/:kind/:namespace/:name', testRouteRef1);
+        routeResolver.addRoute('/path1', testRouteRef2);
     }).toThrow(InvalidPathError);
     
     

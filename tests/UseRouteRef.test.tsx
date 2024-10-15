@@ -11,7 +11,7 @@ test('Use Route Ref', () => {
     
     const routeRef1 = createRouteRef({params: ['kind', 'namespace', 'name']});
 
-    routeResolver.addRoute('/path1/:kind/:namespace/:name', routeRef1);
+    routeResolver.addRoute('/path1', routeRef1);
 
     const TestComponent = () => {
         const routeBuilder = useRouteRef(routeRef1);
