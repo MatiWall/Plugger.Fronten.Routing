@@ -1,9 +1,10 @@
 import { createRouteRef, RouteRef } from "./RouteRef/RouteRef";
 import { RouteResolver } from "./Resolver";
 import {RouteResolverProvider, useRouteResolver} from "./RouterProvider";
-import {useRouteRefParams} from "./RouteRef/UseRouteRefParams" 
-import {AppRouter} from "./Router"
-import {Routes, Route} from "./Routes"
+import {useRouteRefParams} from "./RouteRef/UseRouteRefParams";
+import {AppRouter} from "./Router";
+import {Routes, Route} from "./Routes";
+import { RoutableComponent } from "./RoutebleComponent"
 
 
 export {
@@ -16,7 +17,8 @@ export {
     
     AppRouter, 
     Routes, 
-    Route
+    Route, 
+    RoutableComponent
 }
 
 import { getPathParameters } from "./utils";
@@ -32,6 +34,7 @@ import {
     InvalidPathError 
 
 } from "./errors";
+
 
 export {
     OverLappingParametersError,

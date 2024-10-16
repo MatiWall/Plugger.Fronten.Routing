@@ -1,9 +1,17 @@
+import { ReactNode } from "react"
+import { RouteRef } from "./RouteRef/RouteRef"
 
-interface Route {
+type Route =  {
     readonly id: string,
     params: string[]
 }
 
+type RouteMap = {
+    routeRef: RouteRef,
+    component:  ReactNode
+}
+
 export type {
-    Route
+    Route,
+    RouteMap
 };

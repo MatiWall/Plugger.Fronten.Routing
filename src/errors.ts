@@ -27,9 +27,17 @@ class InvalidPathError extends Error {
     }
 }
 
+class InvalidComponentError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = "ComponentError";
+    }
+}
+
 export { 
     OverLappingParametersError, 
     DuplicateParameterError,
     InvalidRouteRefError,
-    InvalidPathError
+    InvalidPathError, 
+    InvalidComponentError
 };
