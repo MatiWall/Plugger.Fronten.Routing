@@ -43,13 +43,13 @@ test('RouteRef to route with params', () => {
 
 
     const routeResolver = new RouteResolver();
-    routeResolver.addRoute('/path1/:kind/:namespace/:name', testRouteRef1);
+    routeResolver.addRoute('/path1', testRouteRef1);
 
 
 
     expect(() => {
         const testRouteRef3 = createRouteRef({params: ['param1', 'param2', 'param3', 'param4']});
-    }).toThrow(); 
+    }).not.toThrow(); 
     
 
     expect(() => { // Already exists

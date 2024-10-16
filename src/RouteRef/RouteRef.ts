@@ -44,14 +44,13 @@ class RouteRef implements Route{
     }
 
     createSubRouteRef(basePath: string, params: string[] = []): RouteRef {
-        if (!basePath || typeof basePath !== 'string') {
-            throw new InvalidPathError('Path must be a valid string.');
-        }
 
         if (!basePath  && (params.length == 0)){
             throw new InvalidPathError('SubRouteRef can not have both empty path and params');
         }
-
+        if (typeof basePath !== 'string') {
+            throw new InvalidPathError('Path must be a valid string.');
+        }
         const overLappingParams: string[] = params.filter(p => this.params.includes(p))
         if (overLappingParams.length > 0) {
             throw new OverLappingParametersError('Overlapping parameters ' + overLappingParams + ' between parent and sub route.')
