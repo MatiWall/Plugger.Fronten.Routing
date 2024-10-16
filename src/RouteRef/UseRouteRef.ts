@@ -4,7 +4,7 @@ import { InvalidRouteRefError } from "../errors";
 import { RouteResolver } from "../Resolver";
 import { useLocation, useParams } from 'react-router-dom'
 
-function finrRouteRefParent(routeRef: RouteRef, resolver: RouteResolver){
+function findRouteRefParent(routeRef: RouteRef, resolver: RouteResolver){
     const parentID: string | undefined = routeRef.parentID;
     if (parentID) {
         const parentRouteRef: RouteRef | undefined = resolver.getFromID(parentID);
@@ -20,7 +20,7 @@ function findRouteRefParents(routeRef: RouteRef, resolver: RouteResolver){
     let currentRouteRef: RouteRef | undefined = routeRef;
 
     while (currentRouteRef) {
-        const parentRouteRef = finrRouteRefParent(currentRouteRef, resolver);
+        const parentRouteRef = findRouteRefParent(currentRouteRef, resolver);
         if (parentRouteRef) {
             parentRouteRefs.push(parentRouteRef);
             currentRouteRef = parentRouteRef; // Move to the next parent

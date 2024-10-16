@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { 
@@ -8,20 +9,26 @@ import {
     AppRouter 
 } from '../src';
 
+
 const TestComponent: React.FC = () => <div>Test Component</div>;
 const SubComponent1: React.FC = () => <div>Sub Component 1</div>;
 const SubComponent2: React.FC = () => <div>Sub Component 2</div>;
 
+const ChangePath: React.FC = () => {
+    const navigate = useNavigate();
+    navigate('/parent')
+    return <></>
+}
 
 test('renders without crashing', () => {
     const routeBinds = [
         {
-            path: '/test',
+            path: '/',
             routableComponent: new RoutableComponent(createRouteRef(), <TestComponent />)
         }
     ];
-
-    render(<Routes routeBinds={routeBinds} />);
+    
+    const r = render(<AppRouter><Routes routeBinds={routeBinds} /></AppRouter>);
     expect(screen.getByText('Test Component')).toBeInTheDocument();
 });
 
@@ -33,7 +40,7 @@ test('renders correct component for registered route', () => {
         }
     ];
 
-    render(<AppRouter><Routes routeBinds={routeBinds} /></AppRouter>);
+    const { container } = render(<AppRouter><Routes routeBinds={routeBinds} /></AppRouter>);
     
     // Simulating navigation to the registered route
     window.history.pushState({}, 'Test Page', '/test');
@@ -43,8 +50,8 @@ test('renders correct component for registered route', () => {
 
 test('renders nested routes correctly', () => {
     const parentRouteRef = createRouteRef();
-    const subRouteRef1 = parentRouteRef.createSubRouteRef('/sub1');
-    const subRouteRef2 = parentRouteRef.createSubRouteRef('/sub2');
+    const subRouteRef1 = parentRouteRef.createSubRouteRef('sub1');
+    const subRouteRef2 = parentRouteRef.createSubRouteRef('sub2');
 
     const routeBinds = [
         {
@@ -56,7 +63,10 @@ test('renders nested routes correctly', () => {
         }
     ];
 
-    render(<AppRouter><Routes routeBinds={routeBinds} /></AppRouter>);
+    const r = render(<AppRouter>
+        <Routes routeBinds={routeBinds} />
+        <ChangePath/>
+        </AppRouter>);
     
     // Simulating navigation to the parent route
     window.history.pushState({}, 'Parent Page', '/parent');

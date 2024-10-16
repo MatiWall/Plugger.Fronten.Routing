@@ -10,6 +10,10 @@ type RouteRefOptions = {
 }
 
 function paramsToPath(params: string[]): string {
+    if (params.length === 0) {
+        return ''; // Return an empty string if no parameters are provided
+    }
+
     return `/:${params.map(value => value.replace('/', '')).join('/:')}`
 }
 
@@ -44,7 +48,9 @@ class RouteRef implements Route{
     }
 
     createSubRouteRef(basePath: string, params: string[] = []): RouteRef {
-
+        if (basePath.startsWith('/')){
+            throw new InvalidPathError('SubRouteRef can not start with /.')
+        }
         if (!basePath  && (params.length == 0)){
             throw new InvalidPathError('SubRouteRef can not have both empty path and params');
         }

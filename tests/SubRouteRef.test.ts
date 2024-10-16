@@ -1,6 +1,7 @@
 import {
     createRouteRef, 
     DuplicateParameterError, 
+    InvalidPathError, 
     OverLappingParametersError
     } from "../src";
 import { RouteRef, } from "../src";
@@ -22,8 +23,21 @@ describe('SubRouteRef', () => {
 
         expect(testSubRouteRef).toBeInstanceOf(RouteRef);
         expect(testSubRouteRef.parentID).toBe(testRouteRef.id);
-        expect(testSubRouteRef.basePath).toBe(path);
+        expect(testSubRouteRef.path).toBe(path);
         expect(testSubRouteRef.params).toEqual([]);
+    })
+
+    test('Test subRouteRef with wrong url', () => {
+        
+        const path: string = '/test'
+
+
+
+        expect(() => {
+            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
+                path
+            );
+        }).toThrow(InvalidPathError)
     })
 
     test('Subroute with url params', () => {
@@ -36,6 +50,7 @@ describe('SubRouteRef', () => {
         expect(testSubRouteRef).toBeInstanceOf(RouteRef);
         expect(testSubRouteRef.parentID).toBe(testRouteRef.id);
         expect(testSubRouteRef.basePath).toBe(path);
+        expect(testSubRouteRef.path).toBe('test/:kind/:name');
         expect(testSubRouteRef.params).toEqual(['kind', 'name']);
 
     })

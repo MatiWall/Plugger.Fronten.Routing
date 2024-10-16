@@ -31,6 +31,7 @@ test('Initialise RouteRef with params', () => {
     expect(testRouteRef).toBeInstanceOf(RouteRef);
     expect(testRouteRef.id).toBe(id);
     expect(testRouteRef.params).toEqual(params);
+    expect(testRouteRef.path).toEqual('/:params1/:params2/:params3');
 })
 
 test('Initialise RouteRef with default. Make sure id is different', () => {
