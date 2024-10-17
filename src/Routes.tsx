@@ -17,7 +17,6 @@ const renderNestedList = (routeRef: RouteRef, binds: RouteMap[]): JSX.Element =>
     return (
       <>
         {relevantBinds.map((item, index) => {
-          console.log(`Building route for path: ${item.routeRef.path}`);
           return (<Route key={item.routeRef.path} path={item.routeRef.path} element={item.component}>
             {item.routeRef.subRouteRefs && renderNestedList(item.routeRef, binds)}
           </Route>)

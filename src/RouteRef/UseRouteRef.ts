@@ -3,6 +3,7 @@ import { useRouteResolver } from "../RouterProvider";
 import { InvalidRouteRefError } from "../errors";
 import { RouteResolver } from "../Resolver";
 import { useLocation, useParams } from 'react-router-dom'
+import { ExternalRouteRef } from "./ExternalRouteRef";
 
 function findRouteRefParent(routeRef: RouteRef, resolver: RouteResolver){
     const parentID: string | undefined = routeRef.parentID;
@@ -33,8 +34,12 @@ function findRouteRefParents(routeRef: RouteRef, resolver: RouteResolver){
 }
 
 function useRouteRef(
-    routeRef: RouteRef,
+    routeRef: RouteRef | ExternalRouteRef,
 ){
+
+    if (routeRef instanceof ExternalRouteRef){
+        routeRef = routeRef.getRouteRefTarget()
+    }
 
     const paramsFromUrl = useParams();
     const resolver = useRouteResolver();

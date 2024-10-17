@@ -9,15 +9,22 @@ type RouteRefOptions = {
     params?: string[]
 }
 
-function paramsToPath(params: string[]): string {
-    if (params.length === 0) {
-        return ''; // Return an empty string if no parameters are provided
+
+class BaseRouteRef {
+    paramsToPath(params: string[]): string {
+        if (params.length === 0) {
+            return ''; // Return an empty string if no parameters are provided
+        }
+    
+        return `/:${params.map(value => value.replace('/', '')).join('/:')}`
     }
 
-    return `/:${params.map(value => value.replace('/', '')).join('/:')}`
+    buildPath(basePath: string, params: string[]){
+        return basePath+this.paramsToPath(params);
+    }
 }
 
-class RouteRef implements Route{
+class RouteRef extends BaseRouteRef{
     readonly id: string;
     readonly params: string[]
     readonly basePath: string
@@ -31,13 +38,14 @@ class RouteRef implements Route{
         params: string[],
         parentID?: string
     ) {
+        super()
         this.id = id;
         this.params = params;
         this.subRouteRefs = [];
         this.parentID = parentID
 
         this.basePath = basePath;
-        this.path = basePath+paramsToPath(params);
+        this.path = this.buildPath(basePath, params)
 
       }
 
@@ -85,5 +93,6 @@ function createRouteRef({
 
 export {
     createRouteRef, 
+    BaseRouteRef,
     RouteRef
 };
