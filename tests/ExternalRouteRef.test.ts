@@ -1,4 +1,4 @@
-import { ExternalRouteRef, createExternalRouteRef, createRouteRef } from '../src';
+import { ExternalRouteRef, createExternalRouteRef, createRouteRef, bindExternalRouteRef } from '../src';
 
 describe('ExternalRouteRef', () => {
     test('should create an instance without parameters', () => {
@@ -15,7 +15,7 @@ describe('ExternalRouteRef', () => {
         const params = ['param1', 'param2'];
         const routeRef = createRouteRef({params: params});
 
-        externalRouteRef.addRouteRef(routeRef);
+        bindExternalRouteRef(externalRouteRef, routeRef);
 
         expect(externalRouteRef).toBeInstanceOf(ExternalRouteRef);
         expect(externalRouteRef.id).toBe('test-id');
