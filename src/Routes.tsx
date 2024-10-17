@@ -16,11 +16,12 @@ const renderNestedList = (routeRef: RouteRef, binds: RouteMap[]): JSX.Element =>
   
     return (
       <>
-        {relevantBinds.map((item, index) => (
-          <Route key={item.routeRef.path} path={item.routeRef.path} element={item.component}>
+        {relevantBinds.map((item, index) => {
+          console.log(`Building route for path: ${item.routeRef.path}`);
+          return (<Route key={item.routeRef.path} path={item.routeRef.path} element={item.component}>
             {item.routeRef.subRouteRefs && renderNestedList(item.routeRef, binds)}
-          </Route>
-        ))}
+          </Route>)
+})}
       </>
     );
   };
@@ -38,7 +39,7 @@ const renderNestedList = (routeRef: RouteRef, binds: RouteMap[]): JSX.Element =>
                 const subRoutes = routeBind.routableComponent.subRoutes;
 
                 return (
-                    <Route key={basePath + mountPoint.path} path={basePath + mountPoint.path} element={component}>
+                    <Route key={basePath + mountPoint.path} path={basePath + mountPoint.path} element={component} >
                         {renderNestedList(mountPoint, subRoutes)}
                     </Route>  
                 )

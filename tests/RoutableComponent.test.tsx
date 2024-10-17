@@ -21,8 +21,8 @@ test('RoutableComponent Initialise', () => {
 
 test('RoutableComponent with subroutes', () => {
     const testRouteRef = createRouteRef(); 
-    const sub1TestRouteRef = testRouteRef.createSubRouteRef('/test1');
-    const sub2TestRouteRef = testRouteRef.createSubRouteRef('/test2');
+    const sub1TestRouteRef = testRouteRef.createSubRouteRef('test1');
+    const sub2TestRouteRef = testRouteRef.createSubRouteRef('test2');
 
     const TestComponent = () => {
         return <div>My test component</div>

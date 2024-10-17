@@ -1,24 +1,21 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { 
-    createRouteRef,
-    RoutableComponent,
-    Routes, 
-    AppRouter 
-} from '../src';
+import { createRouteRef, RoutableComponent, Routes, AppRouter } from '../src';
 
-
-const TestComponent: React.FC = () => <div>Test Component</div>;
+const TestComponent: React.FC = () => <div><p>Test Component</p><Outlet/> </div>;
 const SubComponent1: React.FC = () => <div>Sub Component 1</div>;
 const SubComponent2: React.FC = () => <div>Sub Component 2</div>;
 
-const ChangePath: React.FC = () => {
+// Helper component to simulate navigation using useNavigate
+const NavigateTo: React.FC<{ path: string }> = ({ path }) => {
     const navigate = useNavigate();
-    navigate('/parent')
-    return <></>
-}
+    React.useEffect(() => {
+        navigate(path);
+    }, [navigate, path]);
+    return null;
+};
 
 test('renders without crashing', () => {
     const routeBinds = [
@@ -28,7 +25,7 @@ test('renders without crashing', () => {
         }
     ];
     
-    const r = render(<AppRouter><Routes routeBinds={routeBinds} /></AppRouter>);
+    render(<AppRouter><Routes routeBinds={routeBinds} /><NavigateTo path={'/'} /></AppRouter>);
     expect(screen.getByText('Test Component')).toBeInTheDocument();
 });
 
@@ -40,11 +37,13 @@ test('renders correct component for registered route', () => {
         }
     ];
 
-    const { container } = render(<AppRouter><Routes routeBinds={routeBinds} /></AppRouter>);
-    
-    // Simulating navigation to the registered route
-    window.history.pushState({}, 'Test Page', '/test');
-    
+    render(
+        <AppRouter>
+            <Routes routeBinds={routeBinds} />
+            <NavigateTo path={'/test'} />
+        </AppRouter>
+    );
+
     expect(screen.getByText('Test Component')).toBeInTheDocument();
 });
 
@@ -63,22 +62,21 @@ test('renders nested routes correctly', () => {
         }
     ];
 
-    const r = render(<AppRouter>
-        <Routes routeBinds={routeBinds} />
-        <ChangePath/>
-        </AppRouter>);
-    
-    // Simulating navigation to the parent route
-    window.history.pushState({}, 'Parent Page', '/parent');
+    render(
+        <AppRouter>
+            <Routes routeBinds={routeBinds} />
+            <NavigateTo path={'/parent/sub1'} />
+        </AppRouter>
+    );
 
-    expect(screen.getByText('Test Component')).toBeInTheDocument();
-
-    // Simulating navigation to the first nested route
-    window.history.pushState({}, 'Sub1 Page', '/parent/sub1');
     expect(screen.getByText('Sub Component 1')).toBeInTheDocument();
 
     // Simulating navigation to the second nested route
-    window.history.pushState({}, 'Sub2 Page', '/parent/sub2');
+    const r = render(
+        <AppRouter>
+            <Routes routeBinds={routeBinds} />
+            <NavigateTo path={'/parent/sub2'} />
+        </AppRouter>
+    );
     expect(screen.getByText('Sub Component 2')).toBeInTheDocument();
 });
-
