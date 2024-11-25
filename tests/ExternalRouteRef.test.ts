@@ -1,4 +1,4 @@
-import { ExternalRouteRef, createExternalRouteRef, createRouteRef, bindExternalRouteRef } from '../src';
+import { ExternalRouteRef, createExternalRouteRef, createRouteRef, bindExternalRouteRef } from '../src/routing';
 
 describe('ExternalRouteRef', () => {
     test('should create an instance without parameters', () => {
