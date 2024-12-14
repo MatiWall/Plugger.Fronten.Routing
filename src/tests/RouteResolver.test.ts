@@ -1,4 +1,4 @@
-import { InvalidPathError, RouteResolver, createRouteRef } from "../src/routing";
+import { InvalidPathError, RouteResolver, createRouteRef } from "../routing";
 
 
 test('Route to route ref', () => {

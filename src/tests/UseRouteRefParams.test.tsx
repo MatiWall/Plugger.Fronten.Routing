@@ -1,8 +1,8 @@
 import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { useRouteRefParams } from '../src'; // Adjust the path as necessary
-import { createRouteRef } from '../src'; // Adjust if needed
+import { useRouteRefParams } from '../routing'; // Adjust the path as necessary
+import { createRouteRef } from '../routing'; // Adjust if needed
 
 it('should return matched parameters from the URL', () => {
 // Create a RouteRef with specific params

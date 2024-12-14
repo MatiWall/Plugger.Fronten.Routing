@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { createRouteRef, RouteResolver, RouteResolverProvider, useRouteResolver } from '../src/routing';
+import { createRouteRef, RouteResolver, RouteResolverProvider, useRouteResolver } from '../routing';
 
 test('Route resolver provider', () => {
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { createRouteRef, RoutableComponent, Routes, AppRouter } from '../src';
+import { createRouteRef, RoutableComponent, Routes, AppRouter } from '../routing';
 
 const TestComponent: React.FC = () => <div><p>Test Component</p><Outlet/> </div>;
 const SubComponent1: React.FC = () => <div>Sub Component 1</div>;

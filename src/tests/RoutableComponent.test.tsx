@@ -1,5 +1,5 @@
 import React from "react";
-import { createRouteRef, RoutableComponent } from "../src/routing";
+import { createRouteRef, RoutableComponent } from "../routing";
 
 
 test('RoutableComponent Initialise', () => {

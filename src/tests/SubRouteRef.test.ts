@@ -3,8 +3,8 @@ import {
     DuplicateParameterError, 
     InvalidPathError, 
     OverLappingParametersError
-    } from "../src/routing";
-import { RouteRef, } from "../src/routing";
+    } from "../routing";
+import { RouteRef, } from "../routing";
 
 describe('SubRouteRef', () => {
     let testRouteRef: RouteRef;
