@@ -23,12 +23,33 @@ Other lower level concepts exists though these are not needed to set up routing 
 
 ```mermaid
 
-graph TD;
-    A[App] --> B[FlatRoutes];
-    B -->|defines| C[Routes];
-    C -->|binds| D[RouteRefs];
-    D -->|used by| E[useRouteRef];
-    E -->|navigates to| F[URL: /my-page];
-    F -->|renders| G[MyPage Component];
+graph TD
+    AppRouter["AppRouter"]
+    Routes["Routes"]
+    RoutableComponentBinds["RoutableComponentBinds"]
+    RoutableComponent["RoutableComponent"]
+    RouteRef["RouteRef"]
+    SubComponentBind["SubComponentBind"]
+    SubRouteRef["SubRouteRef"]
+    SubComponent["SubComponent"]
+    URL["URL"]
+    Component["Component"]
+
+    AppRouter -->|Wraps| Routes
+    Routes -->|Uses| RoutableComponentBinds
+
+    RoutableComponentBinds -->|Resolves| URL
+    RoutableComponentBinds --> RoutableComponent
+
+    RoutableComponent -->|Accepts| RouteRef
+    RoutableComponent -->|Renders| Component
+
+    SubComponentBind -->|Part of| RoutableComponent
+    SubComponentBind -->|Accepts| SubRouteRef
+    SubComponentBind -->|Renders| SubComponent
 
 ```
+
+# Questions
+* How to handle multiple subcomponents in routable component
+* How to build routable component bind and add to Routes
