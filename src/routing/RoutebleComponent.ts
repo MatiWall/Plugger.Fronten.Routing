@@ -8,37 +8,28 @@ import { flattenList, arrayAreEqual } from './utils';
 class RoutableComponent {
     mountPoint: RouteRef
     component: ReactNode
-    subRoutes: RouteMap[]
+    path?: string = undefined
     
     constructor(
         mountPoint: RouteRef,
         component: ReactNode,
-        subRoutes: RouteMap[] = []
+        path?: string
     ){
 
-        this.validateMountPoint(mountPoint);
-        this.validateSubRoutes(subRoutes, mountPoint);
+        this.validateMountPoint(mountPoint, path);
         this.validateComponent(component);
 
         this.component = component
         this.mountPoint = mountPoint
-        this.subRoutes = subRoutes
+        this.path = path
     }
 
-    private validateMountPoint(mountPoint: RouteRef){
-        if (mountPoint.parentID){
-            throw new InvalidRouteRefError('RouteRef used for mountPoint can not have a parent.'); 
+    private validateMountPoint(mountPoint: RouteRef, path?: string) {
+        if (mountPoint.parentID && path) {
+            throw new InvalidRouteRefError(
+                'RouteRef used for root mountPoint cannot have a parent.'
+            );
         }
-    }
-
-    private validateSubRoutes(subRoutes: RouteMap[], mountPoint: RouteRef){
-        if (!arrayAreEqual(subRoutes.map(route => route.routeRef), flattenList(mountPoint.subRouteRefs))){
-            throw new InvalidRouteRefError('Sub routes in mapping and in mountPoint does not match')
-        }
-
-        subRoutes.forEach((subRoute) => {
-            this.validateComponent(subRoute.component);
-        })
     }
 
     private validateComponent(component: ReactNode){
@@ -47,9 +38,26 @@ class RoutableComponent {
         }
     }
 
+    isSubComponent(): boolean {
+        return !!this.mountPoint.parentID; 
+    }
 } 
 
 
+function createRoutableComponent({
+    mountPoint,
+    component,
+    path = undefined,
+}: {
+    mountPoint: RouteRef
+    component: ReactNode
+    path?: string
+}){
+    return new RoutableComponent(mountPoint, component, path)
+}
+
+
 export {
-    RoutableComponent
+    RoutableComponent,
+    createRoutableComponent
 }

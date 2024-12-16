@@ -69,7 +69,7 @@ function useRouteRef(
 
     type RouteParams = { [K in typeof params[number]]: string };
 
-    const routeGenerator = (input: RouteParams): string => {
+    const routeGenerator = (input: RouteParams = {}): string => {
         let generatedPath = path;
 
         params.forEach((param) => {

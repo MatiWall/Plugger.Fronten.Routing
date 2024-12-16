@@ -27,6 +27,23 @@ describe('SubRouteRef', () => {
         expect(testSubRouteRef.params).toEqual([]);
     })
 
+    test('Test nested subRouteRef', () => {
+        
+        const path: string = 'test/'
+        const path2: string = 'test2/'
+
+        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
+            path
+        );
+
+        const nestedTestSubRouteRef = testSubRouteRef.createSubRouteRef(path2)
+
+        expect(nestedTestSubRouteRef).toBeInstanceOf(RouteRef);
+        expect(nestedTestSubRouteRef.parentID).toBe(testSubRouteRef.id);
+        expect(nestedTestSubRouteRef.path).toBe(path2);
+        expect(nestedTestSubRouteRef.params).toEqual([]);
+    })
+
     test('Test subRouteRef with wrong url', () => {
         
         const path: string = '/test'

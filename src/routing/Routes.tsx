@@ -5,41 +5,51 @@ import { RouteRef } from './RouteRef/RouteRef';
 import { RouteMap } from './types';
 import { RoutableComponent } from './RoutebleComponent';
 
-type RoutableComponentBind = {
-    path: string,
-    routableComponent: RoutableComponent
-}
 
-const renderNestedList = (routeRef: RouteRef, binds: RouteMap[]): JSX.Element => {
+const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableComponent>): JSX.Element => {
     const subRouteRefs: RouteRef[] = routeRef.subRouteRefs || [];
-    const relevantBinds: RouteMap[] = binds.filter(bind => subRouteRefs.includes(bind.routeRef));
+    const relevantBinds: RoutableComponent[] = subRouteRefs.map(subRouteRef => flatMap[subRouteRef.id]);
   
     return (
       <>
         {relevantBinds.map((item, index) => {
-          return (<Route key={item.routeRef.path} path={item.routeRef.path} element={item.component}>
-            {item.routeRef.subRouteRefs && renderNestedList(item.routeRef, binds)}
+          return (<Route key={item.mountPoint.path} path={item.mountPoint.path} element={item.component}>
+            {item.mountPoint.subRouteRefs && renderNestedList(item.mountPoint, flatMap)}
           </Route>)
 })}
       </>
     );
-  };
+};
   
   
 
-  const Routes = ({ routeBinds }: { routeBinds: RoutableComponentBind[] }) => {
+  const Routes = ({ routeBinds }: { routeBinds: RoutableComponent[] }) => {
+    /**
+     * Takes a flat list of RoutableComponents and builds nested react router routes 
+     */
+
+    const baseRoutableComponents = routeBinds.filter(route => !route.isSubComponent())
+
+    let flatMap: Record<string, RoutableComponent>= {};
+    routeBinds.forEach(routableComponent => {
+      flatMap[routableComponent.mountPoint.id] = routableComponent
+    })
+
+
+    const routeResolver = useRouteResolver() // Setting up global route resolver ensuring routes can be resolved at any point in the app.
+    baseRoutableComponents.forEach(routableComponent =>{
+      if (routableComponent.path === undefined){
+        throw new Error(`Base routable component can not have path=undefined ${routableComponent}`)
+      }
+      routeResolver.addRoute(routableComponent.path, routableComponent.mountPoint)
+    })
+
     return (
         <ReactRoutes>
-            <>{routeBinds.map((routeBind) => {
-
-                const basePath = routeBind.path;
-                const mountPoint = routeBind.routableComponent.mountPoint;
-                const component = routeBind.routableComponent.component;
-                const subRoutes = routeBind.routableComponent.subRoutes;
-
+            <>{baseRoutableComponents.map((routeBind) => {
                 return (
-                    <Route key={basePath + mountPoint.path} path={basePath + mountPoint.path} element={component} >
-                        {renderNestedList(mountPoint, subRoutes)}
+                    <Route key={routeBind.path + routeBind.mountPoint.path} path={routeBind.path + routeBind.mountPoint.path} element={routeBind.component} >
+                        {renderNestedList(routeBind.mountPoint, flatMap)}
                     </Route>  
                 )
 

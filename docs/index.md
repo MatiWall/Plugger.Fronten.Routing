@@ -4,6 +4,9 @@ CatCode.Frontend.Routing is a helper package to simplify routing in a react app.
 
 This package includes the following high level concepts
 
+# Requirements
+Programatic 
+
 ## Route Reference 
 * RouteRef - a programmatic representation of a route to be used through the an app
 * SubRouteRef - A sub route of a RouteRef

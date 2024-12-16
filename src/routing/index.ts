@@ -6,7 +6,7 @@ import {useRouteRefParams} from "./RouteRef/UseRouteRefParams";
 import { bindExternalRouteRef } from "./RouteRef/BindExternalRouteRefs";
 import {AppRouter} from "./Router";
 import {Routes, Route} from "./Routes";
-import { RoutableComponent } from "./RoutebleComponent"
+import { RoutableComponent, createRoutableComponent } from "./RoutebleComponent"
 
 
 export {
@@ -18,12 +18,14 @@ export {
     RouteResolverProvider,
     useRouteResolver,
     useRouteRefParams,
+    useRouteRef,
     bindExternalRouteRef,
     
     AppRouter, 
     Routes, 
     Route, 
-    RoutableComponent
+    RoutableComponent,
+    createRoutableComponent
 }
 
 import { getPathParameters } from "./utils";
@@ -39,6 +41,7 @@ import {
     InvalidPathError 
 
 } from "./errors";
+import { useRouteRef } from "./RouteRef/UseRouteRef";
 
 
 export {
