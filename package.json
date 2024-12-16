@@ -1,6 +1,6 @@
 {
   "name": "@catcode/core-routing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CatCode routing package",
   "main": "src/index.ts",
   "repository": "git@github.com:MatiWall/CatCode.Frontned.Routing.git",
@@ -8,8 +8,12 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

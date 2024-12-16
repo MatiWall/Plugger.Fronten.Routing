@@ -52,8 +52,8 @@ test('renders correct component for registered route', () => {
 
 test('renders nested routes correctly', () => {
     const parentRouteRef = createRouteRef();
-    const subRouteRef1 = parentRouteRef.createSubRouteRef('sub1');
-    const subRouteRef2 = parentRouteRef.createSubRouteRef('sub2');
+    const subRouteRef1 = parentRouteRef.createSubRouteRef({basePath: 'sub1'});
+    const subRouteRef2 = parentRouteRef.createSubRouteRef({basePath: 'sub2'});
 
     const routeBinds = [
         createRoutableComponent({

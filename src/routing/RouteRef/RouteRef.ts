@@ -55,7 +55,7 @@ class RouteRef extends BaseRouteRef{
 
     }
 
-    createSubRouteRef(basePath: string, params: string[] = []): RouteRef {
+    createSubRouteRef({basePath= '', params= []}: {basePath?: string, params?: string[]} = {}): RouteRef {
         if (basePath.startsWith('/')){
             throw new InvalidPathError('SubRouteRef can not start with /.')
         }

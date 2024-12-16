@@ -17,9 +17,7 @@ describe('SubRouteRef', () => {
         
         const path: string = 'test/'
 
-        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
-            path
-        );
+        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path});
 
         expect(testSubRouteRef).toBeInstanceOf(RouteRef);
         expect(testSubRouteRef.parentID).toBe(testRouteRef.id);
@@ -32,11 +30,9 @@ describe('SubRouteRef', () => {
         const path: string = 'test/'
         const path2: string = 'test2/'
 
-        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
-            path
-        );
+        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path});
 
-        const nestedTestSubRouteRef = testSubRouteRef.createSubRouteRef(path2)
+        const nestedTestSubRouteRef = testSubRouteRef.createSubRouteRef({basePath: path2})
 
         expect(nestedTestSubRouteRef).toBeInstanceOf(RouteRef);
         expect(nestedTestSubRouteRef.parentID).toBe(testSubRouteRef.id);
@@ -51,9 +47,7 @@ describe('SubRouteRef', () => {
 
 
         expect(() => {
-            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
-                path
-            );
+            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path});
         }).toThrow(InvalidPathError)
     })
 
@@ -62,7 +56,7 @@ describe('SubRouteRef', () => {
         const path: string = 'test'
         const params: string[] = ['kind', 'name']
 
-        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(path, params);
+        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path, params});
 
         expect(testSubRouteRef).toBeInstanceOf(RouteRef);
         expect(testSubRouteRef.parentID).toBe(testRouteRef.id);
@@ -79,10 +73,10 @@ describe('SubRouteRef', () => {
 
         expect(() => {
 
-            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
-                'test',
-                ['kind', 'name', 'kind']
-            ); 
+            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({
+                basePath: 'test',
+                params: ['kind', 'name', 'kind']
+        }); 
 
         }).toThrow(DuplicateParameterError);
 
@@ -98,10 +92,10 @@ describe('SubRouteRef', () => {
 
         expect(() => {
 
-            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef(
-                path,
-                ['param1', 'name']
-            ); 
+            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({
+                basePath: path,
+                params: ['param1', 'name']
+        }); 
 
         }).toThrow(OverLappingParametersError);
 

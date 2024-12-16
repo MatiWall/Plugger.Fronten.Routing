@@ -46,14 +46,14 @@ test('Initialise RouteRef with default. Make sure id is different', () => {
 test('subRouteRef', () => {
 
     const testRouteRef = createRouteRef(); 
-    const subRouteRef = testRouteRef.createSubRouteRef('test/')
+    const subRouteRef = testRouteRef.createSubRouteRef({basePath: 'test/'})
     
     expect(testRouteRef.subRouteRefs[0]).toBe(subRouteRef);
     expect(testRouteRef.id).toBe(subRouteRef.parentID);
 
-    const subSubRouteRef = subRouteRef.createSubRouteRef('sub');
-    const subSub2RouteRef = subRouteRef.createSubRouteRef('sub2');
-    const subSubSubRouteRef = subSub2RouteRef.createSubRouteRef('sub3');
+    const subSubRouteRef = subRouteRef.createSubRouteRef({basePath: 'sub'});
+    const subSub2RouteRef = subRouteRef.createSubRouteRef({basePath: 'sub2'});
+    const subSubSubRouteRef = subSub2RouteRef.createSubRouteRef({basePath: 'sub3'});
     
     expect(testRouteRef.subRouteRefs[0].subRouteRefs[0]).toBe(subSubRouteRef);
     expect(testRouteRef.subRouteRefs[0].subRouteRefs[1]).toBe(subSub2RouteRef);
@@ -65,5 +65,5 @@ test('Test subRouteRef without path -> Throw error', () => {
     const testRouteRef = createRouteRef(); 
     
     
-    expect(() => testRouteRef.createSubRouteRef('')).toThrow(InvalidPathError);
+    expect(() => testRouteRef.createSubRouteRef()).toThrow(InvalidPathError);
 })

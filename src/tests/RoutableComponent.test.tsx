@@ -20,8 +20,8 @@ test("RoutableComponent Initialize", () => {
 
 test("RoutableComponent with subroutes", () => {
     const testRouteRef = createRouteRef(); // Parent RouteRef
-    const sub1TestRouteRef = testRouteRef.createSubRouteRef("test1"); // SubRoute 1
-    const sub2TestRouteRef = testRouteRef.createSubRouteRef("test2"); // SubRoute 2
+    const sub1TestRouteRef = testRouteRef.createSubRouteRef({basePath: "test1"}); // SubRoute 1
+    const sub2TestRouteRef = testRouteRef.createSubRouteRef({basePath: "test2"}); // SubRoute 2
 
     // Components for each route
     const TestComponent = () => {
