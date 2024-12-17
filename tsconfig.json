@@ -13,8 +13,11 @@
     "sourceMap": true,                       // Generate sourcemap files
     "jsx": "react",  
     "lib": ["es6", "dom", "es2017"],
+    "declaration": true,                     // Generate declaration files
+    "emitDeclarationOnly": false  
   },
-  "include": ["src/**/*.ts", "src/app/app.tsx", "src/app/app.test.tsx"],
+  "include": ["src/**/*.ts", "src/app/App.tsx"],
+  "exclude": ["**/*.test.ts", "**/*.test.tsx"],
   "paths": {
     "@catcode/*": ["./node_modules/@catcode/*"]
   }
