@@ -1,8 +1,10 @@
 import React from 'react';
+import {test, expect} from 'vitest'
 import { useNavigate, Outlet } from 'react-router-dom';
-import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import { createRouteRef, RoutableComponent, Routes, AppRouter, useRouteRef, createRoutableComponent } from '../routing';
+import '@testing-library/jest-dom/vitest';
+import { render, screen, cleanup } from '@testing-library/react';
+import { createRouteRef, RoutableComponent, Routes, AppRouter, useRouteRef, createRoutableComponent, useRouteResolver, createRouteResolver } from '../routing';
+
 
 const TestComponent: React.FC = () => <div><p>Test Component</p><Outlet/> </div>;
 const SubComponent1: React.FC = () => <div>Sub Component 1</div>;
@@ -18,36 +20,45 @@ const NavigateTo: React.FC<{ path: string }> = ({ path }) => {
 };
 
 test('renders without crashing', () => {
+    const routeRef = createRouteRef();
     const routeBinds = [
         createRoutableComponent({
-            path: '/',
             component: <TestComponent />,
-            mountPoint: createRouteRef()
+            mountPoint: routeRef
         })
     ];
+
+
+    const resolver = createRouteResolver();
+    resolver.addRoute('', routeRef)
     
-    render(<AppRouter><Routes routeBinds={routeBinds} /><NavigateTo path={'/'} /></AppRouter>);
+    render(<AppRouter resolver={resolver}> <Routes routeBinds={routeBinds} /><NavigateTo path={'/'} /></AppRouter>);
     expect(screen.getByText('Test Component')).toBeInTheDocument();
+    cleanup();
 });
 
 test('renders correct component for registered route', () => {
+
+    const routeRef = createRouteRef();
+
     const routeBinds = [
         createRoutableComponent({
-            path: '/test', 
-            mountPoint: createRouteRef(),
+            mountPoint: routeRef,
             component: <TestComponent />
         })
     ];
 
-    
+    const resolver = createRouteResolver();
+    resolver.addRoute('test', routeRef)
     render(
-        <AppRouter>
+        <AppRouter resolver={resolver}>
             <Routes routeBinds={routeBinds} />
-            <NavigateTo path={'/test'} />
+            <NavigateTo path={'test'} />
         </AppRouter>
     );
 
     expect(screen.getByText('Test Component')).toBeInTheDocument();
+    cleanup();
 });
 
 test('renders nested routes correctly', () => {
@@ -57,7 +68,6 @@ test('renders nested routes correctly', () => {
 
     const routeBinds = [
         createRoutableComponent({
-            path: '/parent',
             mountPoint: parentRouteRef,
             component: <TestComponent />,
         }),
@@ -70,24 +80,27 @@ test('renders nested routes correctly', () => {
             component: <SubComponent2 />,
         }),
     ];
-
+    const resolver = createRouteResolver();
+    resolver.addRoute('parent', parentRouteRef)
     // Test for the first nested route
     render(
-        <AppRouter>
+        <AppRouter resolver={resolver}>
             <Routes routeBinds={routeBinds} />
-            <NavigateTo path={'/parent/sub1'} />
+            <NavigateTo path={'parent/sub1'} />
         </AppRouter>
     );
 
     expect(screen.getByText('Sub Component 1')).toBeInTheDocument();
+    cleanup();
 
     // Test for the second nested route
     render(
-        <AppRouter>
+        <AppRouter resolver={resolver}>
             <Routes routeBinds={routeBinds} />
-            <NavigateTo path={'/parent/sub2'} />
+            <NavigateTo path={'parent/sub2'} />
         </AppRouter>
     );
 
     expect(screen.getByText('Sub Component 2')).toBeInTheDocument();
+    cleanup();
 });

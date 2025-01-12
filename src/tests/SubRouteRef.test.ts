@@ -1,3 +1,4 @@
+import {describe, test, expect, beforeEach } from 'vitest'
 import {
     createRouteRef, 
     DuplicateParameterError, 
@@ -5,6 +6,7 @@ import {
     OverLappingParametersError
     } from "../routing";
 import { RouteRef, } from "../routing";
+
 
 describe('SubRouteRef', () => {
     let testRouteRef: RouteRef;
@@ -15,7 +17,7 @@ describe('SubRouteRef', () => {
 
     test('Test subRouteRef', () => {
         
-        const path: string = 'test/'
+        const path: string = 'test'
 
         const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path});
 
@@ -27,8 +29,8 @@ describe('SubRouteRef', () => {
 
     test('Test nested subRouteRef', () => {
         
-        const path: string = 'test/'
-        const path2: string = 'test2/'
+        const path: string = 'test'
+        const path2: string = 'test2'
 
         const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path});
 
@@ -42,7 +44,7 @@ describe('SubRouteRef', () => {
 
     test('Test subRouteRef with wrong url', () => {
         
-        const path: string = '/test'
+        const path: string = 'test/'
 
 
 

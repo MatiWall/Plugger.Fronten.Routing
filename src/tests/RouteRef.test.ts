@@ -1,6 +1,8 @@
+import { test, expect } from 'vitest';
 import {validate as isUUID} from 'uuid';
 import { createRouteRef, InvalidPathError } from "../routing";
 import { RouteRef } from "../routing/RouteRef/RouteRef";
+
 
 test('Initialise RouteRef', () => {
     const testRouteRef = createRouteRef(); 
@@ -46,7 +48,7 @@ test('Initialise RouteRef with default. Make sure id is different', () => {
 test('subRouteRef', () => {
 
     const testRouteRef = createRouteRef(); 
-    const subRouteRef = testRouteRef.createSubRouteRef({basePath: 'test/'})
+    const subRouteRef = testRouteRef.createSubRouteRef({basePath: 'test'})
     
     expect(testRouteRef.subRouteRefs[0]).toBe(subRouteRef);
     expect(testRouteRef.id).toBe(subRouteRef.parentID);

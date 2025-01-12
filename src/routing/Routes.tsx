@@ -4,6 +4,7 @@ import { useRouteResolver } from './RouterProvider';
 import { RouteRef } from './RouteRef/RouteRef';
 import { RouteMap } from './types';
 import { RoutableComponent } from './RoutebleComponent';
+import { useRouteRef } from './RouteRef/UseRouteRef';
 
 
 const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableComponent>): JSX.Element => {
@@ -13,7 +14,7 @@ const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableCo
     return (
       <>
         {relevantBinds.map((item, index) => {
-          return (<Route key={item.mountPoint.path} path={item.mountPoint.path} element={item.component}>
+          return (<Route key={item.mountPoint.id} path={item.mountPoint.path} element={item.component}>
             {item.mountPoint.subRouteRefs && renderNestedList(item.mountPoint, flatMap)}
           </Route>)
 })}
@@ -36,6 +37,7 @@ const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableCo
     })
 
 
+    /*
     const routeResolver = useRouteResolver() // Setting up global route resolver ensuring routes can be resolved at any point in the app.
     baseRoutableComponents.forEach(routableComponent =>{
       if (routableComponent.path === undefined){
@@ -43,12 +45,13 @@ const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableCo
       }
       routeResolver.addRoute(routableComponent.path, routableComponent.mountPoint)
     })
+    */
 
     return (
         <ReactRoutes>
             <>{baseRoutableComponents.map((routeBind) => {
                 return (
-                    <Route key={routeBind.path + routeBind.mountPoint.path} path={routeBind.path + routeBind.mountPoint.path} element={routeBind.component} >
+                    <Route key={routeBind.mountPoint.id} path={useRouteRef(routeBind.mountPoint)()} element={routeBind.component} >
                         {renderNestedList(routeBind.mountPoint, flatMap)}
                     </Route>  
                 )

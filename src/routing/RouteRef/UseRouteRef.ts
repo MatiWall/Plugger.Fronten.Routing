@@ -60,7 +60,7 @@ function useRouteRef(
         params = params.concat(item.params);
     });
 
-    path = `${path}${routeRef.path}`;
+    path = path.endsWith('/') || routeRef.path.startsWith('/') ? `${path}${routeRef.path}` : `${path}/${routeRef.path}`;
     params = params.concat(routeRef.params);
 
     // throw new InvalidRouteRefError('Unknown RouteRef '+ routeRef)

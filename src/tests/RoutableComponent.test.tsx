@@ -1,8 +1,11 @@
 import React from "react";
-import { createRouteRef, RoutableComponent, createRoutableComponent } from "../routing";
+import {test, expect} from 'vitest'
+import { createRouteRef, createRoutableComponent, createRouteResolver } from "../routing";
 
 test("RoutableComponent Initialize", () => {
     const testRouteRef = createRouteRef(); // Create a test RouteRef
+
+    const routeResolver = createRouteResolver();
 
     const TestComponent = () => {
         return <div>My test component</div>;
@@ -13,7 +16,6 @@ test("RoutableComponent Initialize", () => {
         createRoutableComponent({
             mountPoint: testRouteRef,
             component: <TestComponent />,
-            path: "root/",
         });
     }).not.toThrow();
 });
@@ -45,7 +47,6 @@ test("RoutableComponent with subroutes", () => {
     const parentRoutableComponent = routableComponents[2];
     expect(parentRoutableComponent.mountPoint).toBe(testRouteRef);
     expect(parentRoutableComponent.component).toEqual(<TestComponent />);
-    expect(parentRoutableComponent.path).toBe("root/");
 
     // Assertions for subroutes
     const sub1RoutableComponent = routableComponents[0];

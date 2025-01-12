@@ -1,9 +1,9 @@
 import React from 'react';
-import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/vitest';
+import { render, screen, cleanup } from '@testing-library/react';
 import { createExternalRouteRef, createRouteRef, RouteResolver, RouteResolverProvider, useRouteResolver } from '../routing';
 import { useRouteRef } from '../routing/RouteRef/UseRouteRef';
-
+import {test, expect } from 'vitest'
 
 test('Use Route Ref', () => {
 
@@ -11,7 +11,7 @@ test('Use Route Ref', () => {
     
     const routeRef1 = createRouteRef({params: ['kind', 'namespace', 'name']});
 
-    routeResolver.addRoute('/path1', routeRef1);
+    routeResolver.addRoute('path1', routeRef1);
 
     const TestComponent = () => {
         const routeBuilder = useRouteRef(routeRef1);
@@ -26,8 +26,8 @@ test('Use Route Ref', () => {
         </RouteResolverProvider>
     )
 
-    expect(screen.getByText('/path1/system/default/name')).toBeInTheDocument();
-
+    expect(screen.getByText('path1/system/default/name')).toBeInTheDocument();
+    cleanup();
 
 })
 
@@ -38,9 +38,7 @@ test('Use Sub Route Ref', () => {
     
     const routeRef1 = createRouteRef({params: ['kind', 'namespace', 'name']});
 
-    const subRouteRef = routeRef1.createSubRouteRef({params: ['type']})
-
-    routeResolver.addRoute('/path1', routeRef1);
+    routeResolver.addRoute('path1', routeRef1);
 
     const TestComponent = () => {
         const routeBuilder = useRouteRef(routeRef1);
@@ -55,8 +53,8 @@ test('Use Sub Route Ref', () => {
         </RouteResolverProvider>
     )
 
-    expect(screen.getByText('/path1/system/default/name')).toBeInTheDocument();
-
+    expect(screen.getByText('path1/system/default/name')).toBeInTheDocument();
+    cleanup();
 
 })
 
@@ -65,7 +63,7 @@ test('Route Ref missing params', () => {
     
     const routeRef = createRouteRef({params: ['kind', 'namespace', 'name']});
 
-    routeResolver.addRoute('/path1/:kind/:namespace/:name', routeRef);
+    routeResolver.addRoute('path1/:kind/:namespace/:name', routeRef);
 
     const TestComponent = () => {
         const routeBuilder = useRouteRef(routeRef);
@@ -83,6 +81,7 @@ test('Route Ref missing params', () => {
             <TestComponent/>
         </RouteResolverProvider>
     );
+    cleanup();
 });
 
 
@@ -92,7 +91,7 @@ test('Use ExternalRouteRef', () => {
     
     const routeRef1 = createRouteRef({params: ['kind', 'namespace', 'name']});
 
-    routeResolver.addRoute('/path1', routeRef1);
+    routeResolver.addRoute('path1', routeRef1);
 
     const externalRouteRef = createExternalRouteRef();
     externalRouteRef.addRouteRef(routeRef1);
@@ -110,7 +109,7 @@ test('Use ExternalRouteRef', () => {
         </RouteResolverProvider>
     )
 
-    expect(screen.getByText('/path1/system/default/name')).toBeInTheDocument();
-
+    expect(screen.getByText('path1/system/default/name')).toBeInTheDocument();
+    cleanup();
 
 })

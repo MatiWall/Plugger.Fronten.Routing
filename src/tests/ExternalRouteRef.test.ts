@@ -1,4 +1,5 @@
 import { ExternalRouteRef, createExternalRouteRef, createRouteRef, bindExternalRouteRef } from '../routing';
+import { describe, test, expect } from 'vitest';
 
 describe('ExternalRouteRef', () => {
     test('should create an instance without parameters', () => {

@@ -32,6 +32,14 @@ class RouteResolver {
             throw new InvalidRouteRefError('routeRef has to be an instance of RouteRef')
         }
 
+        if (path.startsWith('/')){
+            throw new InvalidPathError(`Bind path can not start with / not ${path}`)
+        }
+
+        if (path.endsWith('/')){
+            throw new InvalidPathError(`Bind path ${path} can not end with /`)
+        }
+
         routeRef.validate(path);
         this.routeMapping.set(path, routeRef);
         this.addToFlatMapper(routeRef)
@@ -46,7 +54,7 @@ class RouteResolver {
         let matched: string | undefined;
 
         this.routeMapping.forEach((value, key) =>{
-            if (value === routeRef){
+            if (value.id === routeRef.id){
                 matched = key
             }
         })
@@ -72,6 +80,15 @@ class RouteResolver {
 
 }
 
+function createRouteResolver({
+    routeMapping = new Map()
+}: {
+    routeMapping?: Map<string, RouteRef>
+} = {}){
+    return new RouteResolver(routeMapping)
+}
+
 export {
-    RouteResolver
+    RouteResolver,
+    createRouteResolver
 }; 

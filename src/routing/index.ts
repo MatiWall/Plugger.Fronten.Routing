@@ -1,6 +1,6 @@
 import { createRouteRef, RouteRef } from "./RouteRef/RouteRef";
 import {ExternalRouteRef, createExternalRouteRef} from "./RouteRef/ExternalRouteRef"
-import { RouteResolver } from "./Resolver";
+import { RouteResolver, createRouteResolver } from "./Resolver";
 import {RouteResolverProvider, useRouteResolver} from "./RouterProvider";
 import {useRouteRefParams} from "./RouteRef/UseRouteRefParams";
 import { bindExternalRouteRef } from "./RouteRef/BindExternalRouteRefs";
@@ -15,6 +15,7 @@ export {
     ExternalRouteRef,
     createExternalRouteRef,
     RouteResolver,
+    createRouteResolver,
     RouteResolverProvider,
     useRouteResolver,
     useRouteRefParams,
