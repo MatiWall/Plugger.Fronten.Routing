@@ -1,4 +1,4 @@
-import React, {ReactNode, isValidElement} from 'react';
+import React, {ReactNode} from 'react';
 import { RouteRef } from './RouteRef/RouteRef';
 import { InvalidComponentError, InvalidRouteRefError } from './errors';
 import { RouteMap } from './types';
@@ -7,25 +7,17 @@ import { flattenList, arrayAreEqual } from './utils';
 
 class RoutableComponent {
     mountPoint: RouteRef
-    component: ReactNode
+    component: React.FC
     
     constructor(
         mountPoint: RouteRef,
-        component: ReactNode,
+        component: React.FC,
     ){
-
-        this.validateComponent(component);
 
         this.component = component
         this.mountPoint = mountPoint
     }
 
-
-    private validateComponent(component: ReactNode){
-        if (!isValidElement(component)){
-            throw new InvalidComponentError('Component ' + component + ' is not a valid react component');
-        }
-    }
 
     isSubComponent(): boolean {
         return !!this.mountPoint.parentID; 
@@ -38,7 +30,7 @@ function createRoutableComponent({
     component
 }: {
     mountPoint: RouteRef
-    component: ReactNode
+    component: React.FC
 }){
     return new RoutableComponent(mountPoint, component)
 }

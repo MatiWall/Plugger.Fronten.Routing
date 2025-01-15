@@ -7,15 +7,17 @@ import { RoutableComponent } from './RoutebleComponent';
 import { useRouteRef } from './RouteRef/UseRouteRef';
 
 
-const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableComponent>): JSX.Element => {
+const RenderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableComponent>): JSX.Element => {
     const subRouteRefs: RouteRef[] = routeRef.subRouteRefs || [];
     const relevantBinds: RoutableComponent[] = subRouteRefs.map(subRouteRef => flatMap[subRouteRef.id]);
-  
+
+
     return (
       <>
         {relevantBinds.map((item, index) => {
-          return (<Route key={item.mountPoint.id} path={item.mountPoint.path} element={item.component}>
-            {item.mountPoint.subRouteRefs && renderNestedList(item.mountPoint, flatMap)}
+            const Component = item.component;
+          return (<Route key={item.mountPoint.id} path={item.mountPoint.path} element={<Component/>}>
+            {item.mountPoint.subRouteRefs && RenderNestedList(item.mountPoint, flatMap)}
           </Route>)
 })}
       </>
@@ -36,23 +38,19 @@ const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableCo
       flatMap[routableComponent.mountPoint.id] = routableComponent
     })
 
+    const routeResolver = useRouteResolver();
 
-    /*
-    const routeResolver = useRouteResolver() // Setting up global route resolver ensuring routes can be resolved at any point in the app.
-    baseRoutableComponents.forEach(routableComponent =>{
-      if (routableComponent.path === undefined){
-        throw new Error(`Base routable component can not have path=undefined ${routableComponent}`)
-      }
-      routeResolver.addRoute(routableComponent.path, routableComponent.mountPoint)
-    })
-    */
 
     return (
         <ReactRoutes>
             <>{baseRoutableComponents.map((routeBind) => {
+              const id = routeBind.mountPoint.id;
+              const path = `${routeResolver.resolveRouteRef(routeBind.mountPoint)}${routeBind.mountPoint.path}`;
+              const Component = routeBind.component;
+
                 return (
-                    <Route key={routeBind.mountPoint.id} path={useRouteRef(routeBind.mountPoint)()} element={routeBind.component} >
-                        {renderNestedList(routeBind.mountPoint, flatMap)}
+                    <Route key={id} path={path} element={<Component/>} >
+                        {RenderNestedList(routeBind.mountPoint, flatMap)}
                     </Route>  
                 )
 

@@ -34,15 +34,15 @@ test('renders nested routes correctly', () => {
     const routeBinds = [
         createRoutableComponent({
             mountPoint: parentRouteRef,
-            component: <TestComponent />,
+            component: TestComponent,
         }),
         createRoutableComponent({
             mountPoint: subRouteRef1,
-            component: <SubComponent1 />,
+            component: SubComponent1,
         }),
         createRoutableComponent({
             mountPoint: subRouteRef2,
-            component: <SubComponent2 />,
+            component: SubComponent2,
         }),
     ];
 
