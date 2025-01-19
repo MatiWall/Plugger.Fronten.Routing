@@ -50,23 +50,24 @@ class RouteRef extends BaseRouteRef{
       }
 
     validate(path: string): boolean{
-        
+
         return true
 
     }
 
     createSubRouteRef({basePath= '', params= []}: {basePath?: string, params?: string[]} = {}): RouteRef {
+        
+        if (typeof basePath !== 'string') {
+            throw new InvalidPathError('Path must be a valid string.');
+        }
         if (basePath.startsWith('/')){
             throw new InvalidPathError('SubRouteRef can not start with /.')
         }
         if (basePath.endsWith('/')){
-            throw new InvalidPathError('SubRouteRef can not end  with /.')
+            throw new InvalidPathError('SubRouteRef can not end with /.')
         }
         if (!basePath  && (params.length == 0)){
             throw new InvalidPathError('SubRouteRef can not have both empty path and params');
-        }
-        if (typeof basePath !== 'string') {
-            throw new InvalidPathError('Path must be a valid string.');
         }
         const overLappingParams: string[] = params.filter(p => this.params.includes(p))
         if (overLappingParams.length > 0) {

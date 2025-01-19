@@ -4,15 +4,17 @@ import { render, screen } from '@testing-library/react';
 import { createRouteRef, RouteResolver, RouteResolverProvider, useRouteResolver } from '../routing';
 import { test, expect } from 'vitest';
 
+
+
 test('Route resolver provider', () => {
 
     const TestComponent = () => {
         const resolver = useRouteResolver();
         return (<div> Route Resolver is Working!</div>)
     }
-
+    const resolver = new RouteResolver();
     render(
-        <RouteResolverProvider>
+        <RouteResolverProvider resolver={resolver}>
             <TestComponent/>
         </RouteResolverProvider>
     )
@@ -31,9 +33,9 @@ test('Route resovler initialisation and resolve', () => {
     const routeRef2 = createRouteRef();
     const routeRef3 = createRouteRef(); 
 
-    routeResolver.addRoute('path1', routeRef1);
-    routeResolver.addRoute('path2', routeRef2);
-    routeResolver.addRoute('path3', routeRef3);
+    routeResolver.addRoute('/path1', routeRef1);
+    routeResolver.addRoute('/path2', routeRef2);
+    routeResolver.addRoute('/path3', routeRef3);
 
     const TestComponent = () => {
         const resolver = useRouteResolver();
@@ -52,7 +54,7 @@ test('Route resovler initialisation and resolve', () => {
     )
 
     expect(screen.getByText((content, element) => {
-        return content.includes('path1') && content.includes('path2') && content.includes('path3');
+        return content.includes('/path1') && content.includes('/path2') && content.includes('/path3');
     })).toBeInTheDocument();
 
 })

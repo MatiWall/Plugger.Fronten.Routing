@@ -8,14 +8,14 @@ test('Route to route ref', () => {
     const testRouteRef3 = createRouteRef();
 
     const routeResolver = new RouteResolver();
-    routeResolver.addRoute('path1', testRouteRef1);
-    routeResolver.addRoute('path2', testRouteRef2);
-    routeResolver.addRoute('path3', testRouteRef3);
+    routeResolver.addRoute('/path1', testRouteRef1);
+    routeResolver.addRoute('/path2', testRouteRef2);
+    routeResolver.addRoute('/path3', testRouteRef3);
 
 
-    expect(routeResolver.resolveRoute('path1')).toBe(testRouteRef1);
-    expect(routeResolver.resolveRoute('path2')).toBe(testRouteRef2);
-    expect(routeResolver.resolveRoute('path3')).toBe(testRouteRef3)
+    expect(routeResolver.resolveRoute('/path1')).toBe(testRouteRef1);
+    expect(routeResolver.resolveRoute('/path2')).toBe(testRouteRef2);
+    expect(routeResolver.resolveRoute('/path3')).toBe(testRouteRef3)
 })
 
 test('RouteRef to route', () => {
@@ -25,12 +25,12 @@ test('RouteRef to route', () => {
     const testRouteRef3 = createRouteRef();
 
     const routeResolver = new RouteResolver();
-    routeResolver.addRoute('path1', testRouteRef1);
-    routeResolver.addRoute('path2', testRouteRef2);
-    routeResolver.addRoute('path3', testRouteRef3);
+    routeResolver.addRoute('/path1', testRouteRef1);
+    routeResolver.addRoute('/path2', testRouteRef2);
+    routeResolver.addRoute('/path3', testRouteRef3);
 
 
-    expect(routeResolver.resolveRouteRef(testRouteRef1)).toBe('path1');
+    expect(routeResolver.resolveRouteRef(testRouteRef1)).toBe('/path1');
 
 })
 
@@ -43,7 +43,7 @@ test('RouteRef to route with params', () => {
 
 
     const routeResolver = new RouteResolver();
-    routeResolver.addRoute('path1', testRouteRef1);
+    routeResolver.addRoute('/path1', testRouteRef1);
 
 
 
@@ -53,7 +53,7 @@ test('RouteRef to route with params', () => {
     
 
     expect(() => { // Already exists
-        routeResolver.addRoute('path1', testRouteRef2);
+        routeResolver.addRoute('/path1', testRouteRef2);
     }).toThrow(InvalidPathError);
     
     

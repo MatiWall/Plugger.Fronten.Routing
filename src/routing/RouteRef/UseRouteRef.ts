@@ -87,7 +87,9 @@ function useRouteRef(
             
         });
 
-        return basePath + generatedPath;
+        const fullPath = `${basePath.replace(/\/+$/, '')}/${generatedPath.replace(/^\/+/, '')}`; // Ensure only one /
+
+        return fullPath;
     };
 
     return routeGenerator

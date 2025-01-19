@@ -3,7 +3,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import '@testing-library/jest-dom/vitest';
 import {test, expect } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react';
-import { createRouteRef, Routes, AppRouter, useRouteRef, createRoutableComponent, RouteRef, useRouteResolver, createRouteResolver } from '../routing';
+import { createRouteRef, RoutesBuilder, AppRouter, useRouteRef, createRoutableComponent, RouteRef, useRouteResolver, createRouteResolver } from '../routing';
 
 const TestComponent: React.FC = () => <div><p>Test Component</p><Outlet/> </div>;
 const SubComponent1: React.FC = () => <div>Sub Component 1</div>;
@@ -48,11 +48,11 @@ test('renders nested routes correctly', () => {
 
 
     const resolver = createRouteResolver();
-    resolver.addRoute('parent', parentRouteRef)
+    resolver.addRoute('/parent', parentRouteRef)
     // Test for the first nested route
     render(
         <AppRouter resolver={resolver}>
-            <Routes routeBinds={routeBinds} />
+            <RoutesBuilder routeBinds={routeBinds} />
             <NavigateTo routeRef={subRouteRef1} />
         </AppRouter>
     );
@@ -63,7 +63,7 @@ test('renders nested routes correctly', () => {
     // Test for the second nested route
     render(
         <AppRouter resolver={resolver}>
-            <Routes routeBinds={routeBinds} />
+            <RoutesBuilder routeBinds={routeBinds} />
             <NavigateTo routeRef={subRouteRef2} />
         </AppRouter>
     );

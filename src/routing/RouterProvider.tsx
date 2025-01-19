@@ -4,8 +4,8 @@ import { Route } from './types';
 
 const RouteResolverContext = createContext<RouteResolver>( new RouteResolver() );
 
-const RouteResolverProvider = ({children, resolver}: {children: ReactNode, resolver?: RouteResolver}) => {
-    const routeResolver: RouteResolver = resolver || new RouteResolver();
+const RouteResolverProvider = ({children, resolver}: {children: ReactNode, resolver: RouteResolver}) => {
+    const routeResolver: RouteResolver = resolver;
 
     return (
         <RouteResolverContext.Provider value={routeResolver}>
@@ -17,7 +17,7 @@ const RouteResolverProvider = ({children, resolver}: {children: ReactNode, resol
 const useRouteResolver = (): RouteResolver => {
     const context = useContext(RouteResolverContext);
     if (!context) {
-        throw new Error("useRouteResolver must be used within a RouteResolverProvider");
+        throw new Error("useRouteResolver must be used within a RouteResolverProvider. No route resolver available.");
     }
     return context;
 };

@@ -3,7 +3,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { Link, Route, Outlet } from 'react-router-dom';
 import '@testing-library/jest-dom/vitest';
 import { createRouteRef, createRoutableComponent, createRouteResolver, useRouteRef } from '../routing';
-import { AppRouter, Routes } from '../routing';
+import { AppRouter, RoutesBuilder } from '../routing';
 
 import { expect, test } from 'vitest';
 
@@ -49,21 +49,22 @@ test('renders nested routes and navigates with Link correctly', () => {
   ];
 
   const resolver = createRouteResolver();
-  resolver.addRoute('', parentRouteRef);
+  resolver.addRoute('/', parentRouteRef);
 
   // Render the AppRouter with Routes
   const { debug } = render(
     <AppRouter resolver={resolver}>
-      <Routes routeBinds={routeBinds} />
+      <RoutesBuilder routeBinds={routeBinds} />
     </AppRouter>
   );
+  
   // Verify the parent component is displayed
   expect(screen.getByText('Parent Component')).toBeInTheDocument();
 
   // Navigate to Sub1
   fireEvent.click(screen.getByText('Go to Sub1'));
   expect(screen.getByText('Sub Component 1')).toBeInTheDocument();
-
+  
 
   // Navigate to Sub2
   fireEvent.click(screen.getByText('Go to Sub2'));

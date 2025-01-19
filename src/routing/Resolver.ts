@@ -32,11 +32,11 @@ class RouteResolver {
             throw new InvalidRouteRefError('routeRef has to be an instance of RouteRef')
         }
 
-        if (path.startsWith('/')){
-            throw new InvalidPathError(`Bind path can not start with / not ${path}`)
+        if (!path.startsWith('/')){
+            throw new InvalidPathError(`Bind path should start with a / not ${path}`)
         }
 
-        if (path.endsWith('/')){
+        if (path !== '/' && path.endsWith('/')){
             throw new InvalidPathError(`Bind path ${path} can not end with /`)
         }
 

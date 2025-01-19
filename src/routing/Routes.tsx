@@ -1,23 +1,21 @@
-import React, {ReactNode, ReactElement} from 'react';
-import {Routes as ReactRoutes, Route  } from "react-router-dom";
+import React from 'react';
+import {Routes, Route  } from "react-router-dom";
 import { useRouteResolver } from './RouterProvider';
 import { RouteRef } from './RouteRef/RouteRef';
-import { RouteMap } from './types';
 import { RoutableComponent } from './RoutebleComponent';
-import { useRouteRef } from './RouteRef/UseRouteRef';
 
 
-const RenderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableComponent>): JSX.Element => {
+const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableComponent>): JSX.Element => {
     const subRouteRefs: RouteRef[] = routeRef.subRouteRefs || [];
     const relevantBinds: RoutableComponent[] = subRouteRefs.map(subRouteRef => flatMap[subRouteRef.id]);
 
 
     return (
       <>
-        {relevantBinds.map((item, index) => {
+        {relevantBinds.map((item) => {
             const Component = item.component;
           return (<Route key={item.mountPoint.id} path={item.mountPoint.path} element={<Component/>}>
-            {item.mountPoint.subRouteRefs && RenderNestedList(item.mountPoint, flatMap)}
+            {item.mountPoint.subRouteRefs && renderNestedList(item.mountPoint, flatMap)}
           </Route>)
 })}
       </>
@@ -26,7 +24,7 @@ const RenderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableCo
   
   
 
-  const Routes = ({ routeBinds }: { routeBinds: RoutableComponent[] }) => {
+  const RoutesBuilder = ({ routeBinds }: { routeBinds: RoutableComponent[] }) => {
     /**
      * Takes a flat list of RoutableComponents and builds nested react router routes 
      */
@@ -42,7 +40,7 @@ const RenderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableCo
 
 
     return (
-        <ReactRoutes>
+        <Routes>
             <>{baseRoutableComponents.map((routeBind) => {
               const id = routeBind.mountPoint.id;
               const path = `${routeResolver.resolveRouteRef(routeBind.mountPoint)}${routeBind.mountPoint.path}`;
@@ -50,17 +48,16 @@ const RenderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableCo
 
                 return (
                     <Route key={id} path={path} element={<Component/>} >
-                        {RenderNestedList(routeBind.mountPoint, flatMap)}
+                        {renderNestedList(routeBind.mountPoint, flatMap)}
                     </Route>  
                 )
 
             })}</>
-        </ReactRoutes>
+        </Routes>
     );
 };
 
 
 export {
-    Routes,
-    Route
+    RoutesBuilder
 }

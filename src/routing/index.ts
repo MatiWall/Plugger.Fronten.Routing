@@ -5,7 +5,7 @@ import {RouteResolverProvider, useRouteResolver} from "./RouterProvider";
 import {useRouteRefParams} from "./RouteRef/UseRouteRefParams";
 import { bindExternalRouteRef } from "./RouteRef/BindExternalRouteRefs";
 import {AppRouter} from "./Router";
-import {Routes, Route} from "./Routes";
+import {RoutesBuilder} from "./Routes";
 import { RoutableComponent, createRoutableComponent } from "./RoutebleComponent"
 
 
@@ -23,8 +23,7 @@ export {
     bindExternalRouteRef,
     
     AppRouter, 
-    Routes, 
-    Route, 
+    RoutesBuilder,
     RoutableComponent,
     createRoutableComponent
 }
