@@ -9,8 +9,6 @@ const AppRouter = ({children, resolver}: {children: ReactNode, resolver: RouteRe
         throw new Error('AppRouter need a resolver of type RouterResolver')
     }
 
-    const isInRouter = useInRouterContext();
-
     return (
         <BrowserRouter>
             <RouteResolverProvider resolver={resolver}>
