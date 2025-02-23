@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useInRouterContext } from "react-router-dom";
 import { RouteResolverProvider } from './RouterProvider';
 import { RouteResolver } from './Resolver';
 
@@ -8,6 +8,8 @@ const AppRouter = ({children, resolver}: {children: ReactNode, resolver: RouteRe
     if (resolver === undefined){
         throw new Error('AppRouter need a resolver of type RouterResolver')
     }
+
+    const isInRouter = useInRouterContext();
 
     return (
         <BrowserRouter>

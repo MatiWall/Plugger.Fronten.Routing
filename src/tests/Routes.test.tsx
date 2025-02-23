@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {test, expect, afterEach} from 'vitest'
+import React, { useState } from 'react';
+import { test, expect, afterEach } from 'vitest'
 import { useNavigate, Outlet, Link } from 'react-router-dom';
 import '@testing-library/jest-dom/vitest';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
@@ -8,9 +8,9 @@ import { createRouteRef, RoutableComponent, RoutesBuilder, AppRouter, useRouteRe
 
 afterEach(() => {
     cleanup();
-  });
+});
 
-const TestComponent: React.FC = () => <div><p>Test Component</p><Outlet/> </div>;
+const TestComponent: React.FC = () => <div><p>Test Component</p><Outlet /> </div>;
 const SubComponent1: React.FC = () => <div>Sub Component 1</div>;
 const SubComponent2: React.FC = () => <div>Sub Component 2</div>;
 
@@ -35,7 +35,7 @@ test('renders without crashing', () => {
 
     const resolver = createRouteResolver();
     resolver.addRoute('/', routeRef)
-    
+
     render(<AppRouter resolver={resolver}> <RoutesBuilder routeBinds={routeBinds} /><NavigateTo path={'/'} /></AppRouter>);
     expect(screen.getByText('Test Component')).toBeInTheDocument();
     cleanup();
@@ -55,11 +55,11 @@ test('renders correct component for registered route', () => {
     const resolver = createRouteResolver();
     resolver.addRoute('/test', routeRef)
     render(
-        <AppRouter resolver={resolver}>
-            <RoutesBuilder routeBinds={routeBinds} />
-            <NavigateTo path={'/test'} />
-        </AppRouter>
-    );
+                    <AppRouter resolver={resolver}>
+                <RoutesBuilder routeBinds={routeBinds} />
+                <NavigateTo path={'/test'} />
+            </AppRouter>
+            );
 
     expect(screen.getByText('Test Component')).toBeInTheDocument();
     cleanup();
@@ -67,8 +67,8 @@ test('renders correct component for registered route', () => {
 
 test('renders nested routes correctly', () => {
     const parentRouteRef = createRouteRef();
-    const subRouteRef1 = parentRouteRef.createSubRouteRef({basePath: 'sub1'});
-    const subRouteRef2 = parentRouteRef.createSubRouteRef({basePath: 'sub2'});
+    const subRouteRef1 = parentRouteRef.createSubRouteRef({ basePath: 'sub1' });
+    const subRouteRef2 = parentRouteRef.createSubRouteRef({ basePath: 'sub2' });
 
     const routeBinds = [
         createRoutableComponent({
@@ -88,40 +88,40 @@ test('renders nested routes correctly', () => {
     resolver.addRoute('/parent', parentRouteRef)
     // Test for the first nested route
     render(
-        <AppRouter resolver={resolver}>
-            <RoutesBuilder routeBinds={routeBinds} />
-            <NavigateTo path={'/parent/sub1'} />
-        </AppRouter>
-    );
+                    <AppRouter resolver={resolver}>
+                <RoutesBuilder routeBinds={routeBinds} />
+                <NavigateTo path={'/parent/sub1'} />
+            </AppRouter>
+            );
 
     expect(screen.getByText('Sub Component 1')).toBeInTheDocument();
     cleanup();
 
     // Test for the second nested route
     render(
-        <AppRouter resolver={resolver}>
-            <RoutesBuilder routeBinds={routeBinds} />
-            <NavigateTo path={'/parent/sub2'} />
-        </AppRouter>
-    );
+                    <AppRouter resolver={resolver}>
+                <RoutesBuilder routeBinds={routeBinds} />
+                <NavigateTo path={'/parent/sub2'} />
+            </AppRouter>
+            );
 
     expect(screen.getByText('Sub Component 2')).toBeInTheDocument();
     cleanup();
 });
 
 
-test('Multiple routes with params', () =>{
+test('Multiple routes with params', () => {
 
 
 
-    const parentRouteRef = createRouteRef({params: ['kind', 'namespace']});
-    const subRouteRef1 = parentRouteRef.createSubRouteRef({basePath: 'sub1', params: ['name']});
-    const subRouteRef2 = parentRouteRef.createSubRouteRef({basePath: 'sub2', params: ['name']});
+    const parentRouteRef = createRouteRef({ params: ['kind', 'namespace'] });
+    const subRouteRef1 = parentRouteRef.createSubRouteRef({ basePath: 'sub1', params: ['name'] });
+    const subRouteRef2 = parentRouteRef.createSubRouteRef({ basePath: 'sub2', params: ['name'] });
 
     const TestComponent: React.FC = () => {
-        const {kind, namespace} = useRouteRefParams(parentRouteRef);
+        const { kind, namespace } = useRouteRefParams(parentRouteRef);
 
-        return <div><p>Test Component </p><p>{kind}</p><p>{ namespace }</p><Outlet/> </div>
+        return <div><p>Test Component </p><p>{kind}</p><p>{namespace}</p><Outlet /> </div>
     };
     const SubComponent1: React.FC = () => {
         const { name } = useRouteRefParams(subRouteRef1);
@@ -150,33 +150,33 @@ test('Multiple routes with params', () =>{
     resolver.addRoute('/parent', parentRouteRef)
     // Test for the first nested route
     render(
-        <AppRouter resolver={resolver}>
-            <RoutesBuilder routeBinds={routeBinds} />
-            <NavigateTo path={'/parent/myKind/myNamespace'} />
-        </AppRouter>
-    );
+                    <AppRouter resolver={resolver}>
+                <RoutesBuilder routeBinds={routeBinds} />
+                <NavigateTo path={'/parent/myKind/myNamespace'} />
+            </AppRouter>
+            );
 
     expect(screen.getByText('myKind')).toBeInTheDocument();
     cleanup();
 
 
     render(
-        <AppRouter resolver={resolver}>
-            <RoutesBuilder routeBinds={routeBinds} />
-            <NavigateTo path={'/parent/myKind2/myNamespace/sub1/myName'} />
-        </AppRouter>
-    );
+                    <AppRouter resolver={resolver}>
+                <RoutesBuilder routeBinds={routeBinds} />
+                <NavigateTo path={'/parent/myKind2/myNamespace/sub1/myName'} />
+            </AppRouter>
+            );
     expect(screen.getByText('myKind2')).toBeInTheDocument();
     expect(screen.getByText('myName')).toBeInTheDocument();
     expect(screen.getByText('Sub Component 1')).toBeInTheDocument();
     cleanup();
 
     render(
-        <AppRouter resolver={resolver}>
-            <RoutesBuilder routeBinds={routeBinds} />
-            <NavigateTo path={'/parent/myKind3/myNamespace/sub2/myName2'} />
-        </AppRouter>
-    );
+                    <AppRouter resolver={resolver}>
+                <RoutesBuilder routeBinds={routeBinds} />
+                <NavigateTo path={'/parent/myKind3/myNamespace/sub2/myName2'} />
+            </AppRouter>
+            );
     expect(screen.getByText('myKind3')).toBeInTheDocument();
     expect(screen.getByText('myName2')).toBeInTheDocument();
     expect(screen.getByText('Sub Component 2')).toBeInTheDocument();

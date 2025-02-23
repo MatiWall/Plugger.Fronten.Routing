@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "ESNext",
     "target": "ES6",                       // Use ESModules
     "moduleResolution": "node",             // Resolve modules like Node.js
     "esModuleInterop": true,                // Ensures ESModule compatibility
@@ -11,7 +11,7 @@
     "resolveJsonModule": true,              // Allow importing JSON files
     "outDir": "./dist",                     // Output directory for compiled files
     "sourceMap": true,                       // Generate sourcemap files
-    "jsx": "react",  
+    "jsx": "react-jsx",  
     "lib": ["es6", "dom", "es2017"],
     "declaration": true,                     // Generate declaration files
     "emitDeclarationOnly": false  

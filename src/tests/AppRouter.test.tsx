@@ -19,18 +19,19 @@ test('renders nested routes and navigates with Link correctly', () => {
 
   const TestComponent = () => {
 
-    
+
 
     return (
-    <div>
-      <h1>Parent Component</h1>
-      <nav>
-        <Link to={useRouteRef(subRouteRef1)()}>Go to Sub1</Link>
-        <Link to={useRouteRef(subRouteRef2)()}>Go to Sub2</Link>
-      </nav>
-      <Outlet/>
-    </div>
-  )};
+      <div>
+        <h1>Parent Component</h1>
+        <nav>
+          <Link to={useRouteRef(subRouteRef1)()}>Go to Sub1</Link>
+          <Link to={useRouteRef(subRouteRef2)()}>Go to Sub2</Link>
+        </nav>
+        <Outlet />
+      </div>
+    )
+  };
 
   // Mock route bindings
   const routeBinds = [
@@ -53,18 +54,18 @@ test('renders nested routes and navigates with Link correctly', () => {
 
   // Render the AppRouter with Routes
   const { debug } = render(
-    <AppRouter resolver={resolver}>
-      <RoutesBuilder routeBinds={routeBinds} />
-    </AppRouter>
-  );
-  
+          <AppRouter resolver={resolver}>
+        <RoutesBuilder routeBinds={routeBinds} />
+      </AppRouter>
+      );
+
   // Verify the parent component is displayed
   expect(screen.getByText('Parent Component')).toBeInTheDocument();
 
   // Navigate to Sub1
   fireEvent.click(screen.getByText('Go to Sub1'));
   expect(screen.getByText('Sub Component 1')).toBeInTheDocument();
-  
+
 
   // Navigate to Sub2
   fireEvent.click(screen.getByText('Go to Sub2'));
