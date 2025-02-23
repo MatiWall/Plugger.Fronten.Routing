@@ -1,6 +1,6 @@
 {
   "name": "@plugger/frontend-routing",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "CatCode routing package",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
