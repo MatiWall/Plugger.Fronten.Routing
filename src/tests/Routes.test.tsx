@@ -55,11 +55,11 @@ test('renders correct component for registered route', () => {
     const resolver = createRouteResolver();
     resolver.addRoute('/test', routeRef)
     render(
-                    <AppRouter resolver={resolver}>
-                <RoutesBuilder routeBinds={routeBinds} />
-                <NavigateTo path={'/test'} />
-            </AppRouter>
-            );
+        <AppRouter resolver={resolver}>
+            <RoutesBuilder routeBinds={routeBinds} />
+            <NavigateTo path={'/test'} />
+        </AppRouter>
+    );
 
     expect(screen.getByText('Test Component')).toBeInTheDocument();
     cleanup();
@@ -88,22 +88,22 @@ test('renders nested routes correctly', () => {
     resolver.addRoute('/parent', parentRouteRef)
     // Test for the first nested route
     render(
-                    <AppRouter resolver={resolver}>
-                <RoutesBuilder routeBinds={routeBinds} />
-                <NavigateTo path={'/parent/sub1'} />
-            </AppRouter>
-            );
+        <AppRouter resolver={resolver}>
+            <RoutesBuilder routeBinds={routeBinds} />
+            <NavigateTo path={'/parent/sub1'} />
+        </AppRouter>
+    );
 
     expect(screen.getByText('Sub Component 1')).toBeInTheDocument();
     cleanup();
 
     // Test for the second nested route
     render(
-                    <AppRouter resolver={resolver}>
-                <RoutesBuilder routeBinds={routeBinds} />
-                <NavigateTo path={'/parent/sub2'} />
-            </AppRouter>
-            );
+        <AppRouter resolver={resolver}>
+            <RoutesBuilder routeBinds={routeBinds} />
+            <NavigateTo path={'/parent/sub2'} />
+        </AppRouter>
+    );
 
     expect(screen.getByText('Sub Component 2')).toBeInTheDocument();
     cleanup();
@@ -150,33 +150,33 @@ test('Multiple routes with params', () => {
     resolver.addRoute('/parent', parentRouteRef)
     // Test for the first nested route
     render(
-                    <AppRouter resolver={resolver}>
-                <RoutesBuilder routeBinds={routeBinds} />
-                <NavigateTo path={'/parent/myKind/myNamespace'} />
-            </AppRouter>
-            );
+        <AppRouter resolver={resolver}>
+            <RoutesBuilder routeBinds={routeBinds} />
+            <NavigateTo path={'/parent/myKind/myNamespace'} />
+        </AppRouter>
+    );
 
     expect(screen.getByText('myKind')).toBeInTheDocument();
     cleanup();
 
 
     render(
-                    <AppRouter resolver={resolver}>
-                <RoutesBuilder routeBinds={routeBinds} />
-                <NavigateTo path={'/parent/myKind2/myNamespace/sub1/myName'} />
-            </AppRouter>
-            );
+        <AppRouter resolver={resolver}>
+            <RoutesBuilder routeBinds={routeBinds} />
+            <NavigateTo path={'/parent/myKind2/myNamespace/sub1/myName'} />
+        </AppRouter>
+    );
     expect(screen.getByText('myKind2')).toBeInTheDocument();
     expect(screen.getByText('myName')).toBeInTheDocument();
     expect(screen.getByText('Sub Component 1')).toBeInTheDocument();
     cleanup();
 
     render(
-                    <AppRouter resolver={resolver}>
-                <RoutesBuilder routeBinds={routeBinds} />
-                <NavigateTo path={'/parent/myKind3/myNamespace/sub2/myName2'} />
-            </AppRouter>
-            );
+        <AppRouter resolver={resolver}>
+            <RoutesBuilder routeBinds={routeBinds} />
+            <NavigateTo path={'/parent/myKind3/myNamespace/sub2/myName2'} />
+        </AppRouter>
+    );
     expect(screen.getByText('myKind3')).toBeInTheDocument();
     expect(screen.getByText('myName2')).toBeInTheDocument();
     expect(screen.getByText('Sub Component 2')).toBeInTheDocument();

@@ -42,6 +42,16 @@ describe('SubRouteRef', () => {
         expect(nestedTestSubRouteRef.params).toEqual([]);
     })
 
+    test('Test subRouteRef with no base only params', () => {
+        
+
+        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({params: ['params1', 'params2']});
+
+        expect(testSubRouteRef).toBeInstanceOf(RouteRef);
+        expect(testSubRouteRef.params).toEqual(['params1', 'params2']);
+        expect(testSubRouteRef.path).toEqual(':params1/:params2')
+    })
+
     test('Test subRouteRef with wrong url', () => {
         
         const path: string = 'test/'

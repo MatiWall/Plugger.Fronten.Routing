@@ -15,12 +15,17 @@ class BaseRouteRef {
         if (params.length === 0) {
             return ''; // Return an empty string if no parameters are provided
         }
-    
-        return `/:${params.map(value => value.replace('/', '')).join('/:')}`
+        return params.map(value => `:${value.replace('/', '')}`).join('/');
     }
 
-    buildPath(basePath: string, params: string[]){
-        return basePath+this.paramsToPath(params);
+    buildPath(basePath: string, params: string[], isSubRoute: boolean = false): string {
+        const paramsPath = this.paramsToPath(params);
+
+        if (basePath) {
+            return paramsPath ? `${basePath}/${paramsPath}` : basePath;
+        }
+
+        return paramsPath ? (isSubRoute ? paramsPath : `/${paramsPath}`) : '';
     }
 }
 
@@ -45,7 +50,7 @@ class RouteRef extends BaseRouteRef{
         this.parentID = parentID
 
         this.basePath = basePath;
-        this.path = this.buildPath(basePath, params)
+        this.path = this.buildPath(basePath, params, !!parentID)
 
       }
 
