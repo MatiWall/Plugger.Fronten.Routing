@@ -5,20 +5,20 @@ import { RouteResolver } from "../Resolver";
 import { useLocation, useParams } from 'react-router-dom'
 import { ExternalRouteRef } from "./ExternalRouteRef";
 
-function findRouteRefParent(routeRef: RouteRef, resolver: RouteResolver){
+function findRouteRefParent(routeRef: RouteRef<any>, resolver: RouteResolver){
     const parentID: string | undefined = routeRef.parentID;
     if (parentID) {
-        const parentRouteRef: RouteRef | undefined = resolver.getFromID(parentID);
+        const parentRouteRef: RouteRef<any> | undefined = resolver.getFromID(parentID);
         return parentRouteRef
     }
 }
 
 
-function findRouteRefParents(routeRef: RouteRef, resolver: RouteResolver){
+function findRouteRefParents(routeRef: RouteRef<any>, resolver: RouteResolver){
 
-    let parentRouteRefs: RouteRef[] = [];
+    let parentRouteRefs: RouteRef<any>[] = [];
 
-    let currentRouteRef: RouteRef | undefined = routeRef;
+    let currentRouteRef: RouteRef<any> | undefined = routeRef;
 
     while (currentRouteRef) {
         const parentRouteRef = findRouteRefParent(currentRouteRef, resolver);
@@ -34,7 +34,7 @@ function findRouteRefParents(routeRef: RouteRef, resolver: RouteResolver){
 }
 
 function useRouteRef(
-    routeRef: RouteRef | ExternalRouteRef,
+    routeRef: RouteRef<any> | ExternalRouteRef,
 ){
 
     if (routeRef instanceof ExternalRouteRef){
@@ -44,7 +44,7 @@ function useRouteRef(
     const paramsFromUrl = useParams();
     const resolver = useRouteResolver();
     let basePath: string;
-    const parentRouteRefs: RouteRef[] = findRouteRefParents(routeRef, resolver);
+    const parentRouteRefs: RouteRef<any>[] = findRouteRefParents(routeRef, resolver);
 
     if (parentRouteRefs.length == 0){
         basePath = resolver.resolveRouteRef(routeRef);

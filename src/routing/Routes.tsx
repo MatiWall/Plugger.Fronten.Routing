@@ -5,8 +5,8 @@ import { RouteRef } from './RouteRef/RouteRef';
 import { RoutableComponent } from './RoutebleComponent';
 
 
-const renderNestedList = (routeRef: RouteRef, flatMap: Record<string, RoutableComponent>): JSX.Element => {
-    const subRouteRefs: RouteRef[] = routeRef.subRouteRefs || [];
+const renderNestedList = (routeRef: RouteRef<any>, flatMap: Record<string, RoutableComponent>): JSX.Element => {
+    const subRouteRefs: RouteRef<any>[] = routeRef.subRouteRefs || [];
     const relevantBinds: RoutableComponent[] = subRouteRefs.map(subRouteRef => flatMap[subRouteRef.id]);
 
 

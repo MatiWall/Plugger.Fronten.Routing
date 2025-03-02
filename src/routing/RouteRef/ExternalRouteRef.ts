@@ -7,9 +7,9 @@ type ExternalRouteRefOptions = {
     id?: string,
 }
 
-class ExternalRouteRef extends BaseRouteRef {
+class ExternalRouteRef extends BaseRouteRef<any> {
     readonly id: string
-    private routeRefTarget?: RouteRef
+    private routeRefTarget?: RouteRef<any>
     
     constructor(
         id: string
@@ -18,7 +18,7 @@ class ExternalRouteRef extends BaseRouteRef {
         this.id = id
     }
 
-    getRouteRefTarget(): RouteRef{
+    getRouteRefTarget(): RouteRef<any>{
         if (!this.routeRefTarget){
             throw new InvalidRouteRefError('ExternalRouteRef has not been bound.')
         }
@@ -26,11 +26,11 @@ class ExternalRouteRef extends BaseRouteRef {
     }
 
 
-    addRouteRef(routeRef: RouteRef){
+    addRouteRef<TParams extends readonly string[]>(routeRef: RouteRef<TParams>){
         this.routeRefTarget = routeRef
     }
 
-    get subRouteRefs(): RouteRef[]{
+    get subRouteRefs(): RouteRef<any>[]{
         return this.routeRefTarget?.subRouteRefs || []
     }
 

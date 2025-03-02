@@ -12,7 +12,8 @@ const routeRef = createRouteRef({ params: ["kind", "namespace", "name"] });
 
 // Test component to extract and display the route params
 const TestComponent = () => {
-  const params = useRouteRefParams(routeRef);
+const params = useRouteRefParams(routeRef);
+
   return (
     <div>
       <span data-testid="kind">{params.kind}</span>

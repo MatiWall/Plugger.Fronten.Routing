@@ -59,3 +59,16 @@ test('RouteRef to route with params', () => {
     
 
 })
+
+
+test('RouteRef with and without params', () => {
+
+    const testRouteRef1 = createRouteRef();
+    const testRouteRef2 = createRouteRef({params: ['kind', 'namespace', 'name']});
+
+
+    const routeResolver = new RouteResolver();
+    routeResolver.addRoute('/path1', testRouteRef1);
+    routeResolver.addRoute('/path1', testRouteRef2);
+    
+})

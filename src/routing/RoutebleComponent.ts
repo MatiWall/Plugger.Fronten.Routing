@@ -6,11 +6,11 @@ import { flattenList, arrayAreEqual } from './utils';
 
 
 class RoutableComponent {
-    mountPoint: RouteRef
+    mountPoint: RouteRef<any>
     component: React.FC
     
     constructor(
-        mountPoint: RouteRef,
+        mountPoint: RouteRef<any>,
         component: React.FC,
     ){
 
@@ -29,7 +29,7 @@ function createRoutableComponent({
     mountPoint,
     component
 }: {
-    mountPoint: RouteRef
+    mountPoint: RouteRef<any>
     component: React.FC
 }){
     return new RoutableComponent(mountPoint, component)

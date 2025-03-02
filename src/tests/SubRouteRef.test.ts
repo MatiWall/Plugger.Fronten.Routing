@@ -9,7 +9,7 @@ import { RouteRef, } from "../routing";
 
 
 describe('SubRouteRef', () => {
-    let testRouteRef: RouteRef;
+    let testRouteRef: any;
 
     beforeEach(() => {
         testRouteRef = createRouteRef();
@@ -19,7 +19,7 @@ describe('SubRouteRef', () => {
         
         const path: string = 'test'
 
-        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path});
+        const testSubRouteRef = testRouteRef.createSubRouteRef({basePath: path});
 
         expect(testSubRouteRef).toBeInstanceOf(RouteRef);
         expect(testSubRouteRef.parentID).toBe(testRouteRef.id);
@@ -32,7 +32,7 @@ describe('SubRouteRef', () => {
         const path: string = 'test'
         const path2: string = 'test2'
 
-        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path});
+        const testSubRouteRef = testRouteRef.createSubRouteRef({basePath: path});
 
         const nestedTestSubRouteRef = testSubRouteRef.createSubRouteRef({basePath: path2})
 
@@ -45,7 +45,7 @@ describe('SubRouteRef', () => {
     test('Test subRouteRef with no base only params', () => {
         
 
-        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({params: ['params1', 'params2']});
+        const testSubRouteRef = testRouteRef.createSubRouteRef({params: ['params1', 'params2']});
 
         expect(testSubRouteRef).toBeInstanceOf(RouteRef);
         expect(testSubRouteRef.params).toEqual(['params1', 'params2']);
@@ -59,16 +59,16 @@ describe('SubRouteRef', () => {
 
 
         expect(() => {
-            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path});
+            const testSubRouteRef = testRouteRef.createSubRouteRef({basePath: path});
         }).toThrow(InvalidPathError)
     })
 
     test('Subroute with url params', () => {
 
-        const path: string = 'test'
-        const params: string[] = ['kind', 'name']
+        const path = 'test'
+        const params = ['kind', 'name']
 
-        const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({basePath: path, params});
+        const testSubRouteRef = testRouteRef.createSubRouteRef({basePath: path, params});
 
         expect(testSubRouteRef).toBeInstanceOf(RouteRef);
         expect(testSubRouteRef.parentID).toBe(testRouteRef.id);
@@ -85,7 +85,7 @@ describe('SubRouteRef', () => {
 
         expect(() => {
 
-            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({
+            const testSubRouteRef = testRouteRef.createSubRouteRef({
                 basePath: 'test',
                 params: ['kind', 'name', 'kind']
         }); 
@@ -104,7 +104,7 @@ describe('SubRouteRef', () => {
 
         expect(() => {
 
-            const testSubRouteRef: RouteRef = testRouteRef.createSubRouteRef({
+            const testSubRouteRef = testRouteRef.createSubRouteRef({
                 basePath: path,
                 params: ['param1', 'name']
         }); 

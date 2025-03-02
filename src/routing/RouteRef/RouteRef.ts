@@ -3,22 +3,22 @@ import { v4 as uuidv4 } from 'uuid';
 import { arrayAreEqual, getPathParameters } from '../utils';
 import { InvalidPathError, OverLappingParametersError, DuplicateParameterError } from '../errors';
 
-type RouteRefOptions = {
+type RouteRefOptions<T extends readonly string[]> = {
     id?: string,
     path?: string,
-    params?: string[]
+    params?: T
 }
 
 
-class BaseRouteRef {
-    paramsToPath(params: string[]): string {
+class BaseRouteRef<TParams extends readonly string[]> {
+    paramsToPath(params: TParams): string {
         if (params.length === 0) {
             return ''; // Return an empty string if no parameters are provided
         }
         return params.map(value => `:${value.replace('/', '')}`).join('/');
     }
 
-    buildPath(basePath: string, params: string[], isSubRoute: boolean = false): string {
+    buildPath(basePath: string, params: TParams, isSubRoute: boolean = false): string {
         const paramsPath = this.paramsToPath(params);
 
         if (basePath) {
@@ -29,18 +29,18 @@ class BaseRouteRef {
     }
 }
 
-class RouteRef extends BaseRouteRef{
+class RouteRef<TParams extends readonly string[]> extends BaseRouteRef<TParams>{
     readonly id: string;
-    readonly params: string[]
+    readonly params: TParams
     readonly basePath: string
     readonly path: string
-    readonly subRouteRefs: RouteRef[]
+    readonly subRouteRefs: RouteRef<any>[]
     readonly parentID?: string
 
     constructor(
         id: string, 
         basePath: string, 
-        params: string[],
+        params: TParams,
         parentID?: string
     ) {
         super()
@@ -60,7 +60,7 @@ class RouteRef extends BaseRouteRef{
 
     }
 
-    createSubRouteRef({basePath= '', params= []}: {basePath?: string, params?: string[]} = {}): RouteRef {
+    createSubRouteRef<TSubParams extends readonly string[]>({basePath= '', params= [] as unknown as TSubParams }: {basePath?: string, params?: TSubParams} = {}): RouteRef<TSubParams> {
         
         if (typeof basePath !== 'string') {
             throw new InvalidPathError('Path must be a valid string.');
@@ -85,7 +85,7 @@ class RouteRef extends BaseRouteRef{
         }
 
 
-        const subRouteRef = new RouteRef(uuidv4(), basePath, params, this.id);
+        const subRouteRef = new RouteRef<TSubParams>(uuidv4(), basePath, params, this.id);
         this.subRouteRefs.push(subRouteRef);
         return subRouteRef;
       }
@@ -93,10 +93,10 @@ class RouteRef extends BaseRouteRef{
 }
 
 
-function createRouteRef({
+function createRouteRef<TParams extends readonly string[]>({
     id = uuidv4(),
-    params = [],
-  }: RouteRefOptions = {}): RouteRef {
+    params = []  as unknown as TParams ,
+  }: RouteRefOptions<TParams> = {}): RouteRef<TParams> {
     return new RouteRef(id, '', params);
   }
 

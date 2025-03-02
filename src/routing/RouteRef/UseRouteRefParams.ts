@@ -2,21 +2,21 @@ import { useParams } from "react-router-dom";
 import { RouteRef } from "./RouteRef";
 
 
-function useRouteRefParams(routeRef: RouteRef) {
+function useRouteRefParams(routeRef: RouteRef<any>) {
     const pathParams = useParams();
 
     if (!routeRef.params.length) {
         return {};
     }
 
-    const matchedParams: { [key: string]: string } = {};
+    const matchedParams: Partial<{ [key: string]: string }> = {};
 
     for (const param of routeRef.params) {
         if (pathParams[param]) {
-            matchedParams[param] = pathParams[param]; 
+            matchedParams[param] = pathParams[param];
         }
     }
-    return matchedParams;
+return matchedParams;
 }
 
 export {

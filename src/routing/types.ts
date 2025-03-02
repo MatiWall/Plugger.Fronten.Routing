@@ -7,7 +7,7 @@ type Route =  {
 }
 
 type RouteMap = {
-    routeRef: RouteRef,
+    routeRef: RouteRef<string[]>,
     component:  ReactNode
 }
 
