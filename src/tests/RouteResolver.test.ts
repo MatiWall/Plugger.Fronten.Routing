@@ -1,4 +1,4 @@
-import { InvalidPathError, RouteResolver, createRouteRef } from "../routing";
+import { InvalidPathError, RouteResolver, createRouteRef, InvalidRouteRefError } from "../routing";
 import { test, expect } from "vitest";
 
 test('Route to route ref', () => {
@@ -39,36 +39,58 @@ test('RouteRef to route', () => {
 test('RouteRef to route with params', () => {
 
     const testRouteRef1 = createRouteRef({params: ['kind']});
-    const testRouteRef2 = createRouteRef({params: ['kind', 'namespace', 'name']});
+    const testRouteRef2 = createRouteRef({params: ['kind']});
+    const testRouteRef3 = createRouteRef({params: ['kind', 'namespace', 'name']});
 
 
     const routeResolver = new RouteResolver();
     routeResolver.addRoute('/path1', testRouteRef1);
 
-
-
-    expect(() => {
-        const testRouteRef3 = createRouteRef({params: ['param1', 'param2', 'param3', 'param4']});
-    }).not.toThrow(); 
-    
 
     expect(() => { // Already exists
         routeResolver.addRoute('/path1', testRouteRef2);
     }).toThrow(InvalidPathError);
-    
-    
+
+    expect(() => { // More params, not existing
+        routeResolver.addRoute('/path1', testRouteRef3); // more params
+    }).not.toThrow(InvalidPathError);
 
 })
 
-
-test('RouteRef with and without params', () => {
-
-    const testRouteRef1 = createRouteRef();
-    const testRouteRef2 = createRouteRef({params: ['kind', 'namespace', 'name']});
-
+test('Allow same path with different params', () => {
+    const testRouteRef1 = createRouteRef({ params: ['kind'] });
+    const testRouteRef2 = createRouteRef({ params: ['kind', 'namespace'] });
 
     const routeResolver = new RouteResolver();
-    routeResolver.addRoute('/path1', testRouteRef1);
-    routeResolver.addRoute('/path1', testRouteRef2);
-    
-})
+    routeResolver.addRoute('/path', testRouteRef1);
+
+    expect(() => {
+        routeResolver.addRoute('/path', testRouteRef2);
+    }).not.toThrow(InvalidPathError);
+});
+
+test('Resolve route with params', () => {
+    const testRouteRef1 = createRouteRef({ params: ['kind'] });
+    const testRouteRef2 = createRouteRef({ params: ['kind', 'namespace'] });
+
+    const routeResolver = new RouteResolver();
+    routeResolver.addRoute('/path', testRouteRef1);
+    routeResolver.addRoute('/path', testRouteRef2);
+
+    expect(routeResolver.resolveRoute('/path', ['test'])).toBe(testRouteRef1);
+    expect(routeResolver.resolveRoute('/path', ['test', 'default'])).toBe(testRouteRef2);
+});
+
+
+test('Resolve route without params defaults to first', () => {
+    const testRouteRef1 = createRouteRef({ params: ['kind'] });
+    const testRouteRef2 = createRouteRef({ params: ['kind', 'namespace'] });
+
+    const routeResolver = new RouteResolver();
+    routeResolver.addRoute('/path', testRouteRef1);
+    routeResolver.addRoute('/path', testRouteRef2);
+
+    expect(routeResolver.resolveRoute('/path')).toBe(testRouteRef1);
+});
+
+

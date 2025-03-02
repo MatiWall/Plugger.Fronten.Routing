@@ -4,19 +4,21 @@ import { RouteRef } from "./RouteRef/RouteRef"
 
 
 class RouteResolver {
-    routeMapping: Map<string, RouteRef<any>>
+    routeMapping: Map<string, RouteRef<any>[]>
     flatMapper:  Map<string, RouteRef<any>>
 
     constructor(
-        routeMapping: Map<string, RouteRef<any>> = new Map()
+        routeMapping: Map<string, RouteRef<any>[]> = new Map()
     ){
         this.routeMapping = routeMapping
         this.flatMapper = new Map<string, RouteRef<any>>()
         
-        this.routeMapping.forEach((routeRef, path) => {
-            routeRef.validate(path);
-            this.addToFlatMapper(routeRef);
-        })
+        this.routeMapping.forEach((routeRefs, path) => {
+            routeRefs.forEach(routeRef => {
+                routeRef.validate(path);
+                this.addToFlatMapper(routeRef);
+            });
+        });
         
 
 
@@ -24,9 +26,6 @@ class RouteResolver {
 
     addRoute(path: string, routeRef: RouteRef<any>): boolean {
         
-        if (this.routeMapping.has(path)) {
-            throw new InvalidPathError(`Route with path "${path}" already exists.`);
-        }
 
         if (!(routeRef instanceof RouteRef)){
             throw new InvalidRouteRefError(`routeRef has to be an instance of RouteRef not ${typeof routeRef}`)
@@ -41,29 +40,39 @@ class RouteResolver {
         }
 
         routeRef.validate(path);
-        this.routeMapping.set(path, routeRef);
-        this.addToFlatMapper(routeRef)
-        return true
-    }
 
-    resolveRoute(path: string): RouteRef<any> | undefined {
-        return this.routeMapping.get(path);
-    }
-
-    resolveRouteRef(routeRef: RouteRef<any>): string{
-        let matched: string | undefined;
-
-        this.routeMapping.forEach((value, key) =>{
-            if (value.id === routeRef.id){
-                matched = key
+        if (this.routeMapping.has(path)) {
+            const existingRoutes = this.routeMapping.get(path)!;
+            if (existingRoutes.some(existingRoute => this.matchParams(existingRoute, routeRef.params))) {
+                throw new InvalidPathError(`Route with path "${path}" and the same params already exists.`);
             }
-        })
-
-        if (matched == undefined) {
-            throw new InvalidRouteRefError('RouteRef ' + routeRef + ' does not exists.')
+        } else {
+            this.routeMapping.set(path, []);
         }
 
-        return matched
+        this.routeMapping.get(path)!.push(routeRef);
+        this.addToFlatMapper(routeRef);
+
+        return true
+    }
+    resolveRoute(path: string, params?: string[]): RouteRef<any> | undefined {
+        const routeRefs = this.routeMapping.get(path);
+        if (!routeRefs) return undefined;
+
+        if (!params || Object.keys(params).length === 0) {
+            return routeRefs[0]; // Default to the first one if no params are given
+        }
+
+        return routeRefs.find(routeRef => this.matchParams(routeRef, params));
+    }
+
+    resolveRouteRef(routeRef: RouteRef<any>): string {
+        for (const [path, routeRefs] of this.routeMapping.entries()) {
+            if (routeRefs.some(ref => ref.id === routeRef.id)) {
+                return path;
+            }
+        }
+        throw new InvalidRouteRefError(`RouteRef ${routeRef.id} does not exist.`);
     }
 
     getFromID(id: string): RouteRef<any> | undefined{
@@ -78,12 +87,17 @@ class RouteResolver {
         });
   }
 
+  private matchParams(routeRef: RouteRef<any>, params: string[]): boolean {
+    if (!routeRef.params) return true;
+    return routeRef.params.length === params.length;
+}
+
 }
 
 function createRouteResolver({
     routeMapping = new Map()
 }: {
-    routeMapping?: Map<string, RouteRef<any>>
+    routeMapping?: Map<string, RouteRef<any>[]>
 } = {}){
     return new RouteResolver(routeMapping)
 }
